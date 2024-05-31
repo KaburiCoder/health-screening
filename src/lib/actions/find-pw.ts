@@ -1,9 +1,9 @@
 'use server'
-import { axClient } from "@/lib/api/ax-client";
 import { apiPaths } from "@/paths";
 import Joi from "joi";
 import { ActionResultBase } from "./common/action-result-base";
 import { catchActionApi } from "./common/catch-action-api";
+import { axServer } from "../api/ax-server";
 
 interface FindPwDto {
   userId: string;
@@ -28,7 +28,7 @@ export async function findPw(_: FindPwResult, formData: FormData): Promise<FindP
     email: formData.get("email")
   });
 
-  const result = await catchActionApi<FindPwResult>(error, () => axClient.put(apiPaths.users.findpw(value.userId), { email: value.email }));
+  const result = await catchActionApi<FindPwResult>(error, () => axServer().put(apiPaths.users.findpw(value.userId), { email: value.email }));
 
   if (result.status === 'error') return result;
 

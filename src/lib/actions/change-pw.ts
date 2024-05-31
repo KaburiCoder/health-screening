@@ -1,11 +1,10 @@
 'use server'
-import { axClient } from "@/lib/api/ax-client";
 import { apiPaths, paths } from "@/paths";
 import Joi from "joi";
 import { ActionResultBase } from "./common/action-result-base";
 import { catchActionApi } from "./common/catch-action-api";
-import { revalidateTag } from "next/cache";
 import { RedirectType, redirect } from "next/navigation";
+import { axServer } from "../api/ax-server";
 
 interface ChangePwDto {
   password: string;
@@ -35,7 +34,7 @@ export async function changePw(userId: string, navToLogin: boolean | undefined, 
     return { status: 'error', errors: { _form: "사용자 정보가 올바르지 않습니다." } };
   }
 
-  const result = await catchActionApi(error, () => axClient.put(apiPaths.users.changepw(userId), { password: value.password }));
+  const result = await catchActionApi(error, () => axServer().put(apiPaths.users.changepw(userId), { password: value.password }));
 
   if (result.status === 'error') return result;
 

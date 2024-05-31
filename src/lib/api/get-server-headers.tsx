@@ -8,8 +8,8 @@ export function getServerHeaders() {
   //   copyHeaders[key] = value;
   // }
 
-  console.log(headersArray);
-  
+  // console.log(headersArray);
+
   copyHeaders["cookie"] = headersList.get("cookie") as string;
   copyHeaders["host"] = process.env.NEXT_PUBLIC_DOMAIN!;
 

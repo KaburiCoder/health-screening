@@ -7,6 +7,7 @@ import { flattenJoiError } from "health-screening-shared/joi";
 import Joi from "joi";
 import { ActionResultBase } from "./common/action-result-base";
 import { catchActionApi } from "./common/catch-action-api";
+import { axServer } from "../api/ax-server";
 
 interface CheckPwDto {
   password: string;
@@ -25,7 +26,7 @@ export async function checkPw(state: CheckPwResult, formData: FormData): Promise
     return { status: 'error', errors: flattenJoiError(error) };
   }
   const path = apiPaths.users.checkpw(user!.userId);
-  const result = await catchActionApi(error, () => axClient.post(path, {
+  const result = await catchActionApi(error, () => axServer().post(path, {
     password: value.password,
   }));
 

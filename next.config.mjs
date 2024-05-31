@@ -5,7 +5,7 @@ const nextConfig = {
       allowedOrigins: [process.env.NEXT_PUBLIC_DOMAIN],
     },
   },
-  // output: 'standalone',
+  output: 'standalone',
   reactStrictMode: false,
 };
 

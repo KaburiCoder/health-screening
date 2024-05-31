@@ -71,14 +71,21 @@ export function PatientCard({ data }: PatientCardProps) {
                 {isCognitive && <Chip size="sm">인지</Chip>}
                 {isDepression && <Chip size="sm">우울</Chip>}
               </div>
-              <Button
-                isLoading={isLoading}
-                color={written ? "success" : "primary"}
-                variant="flat"
-                onClick={handlePush.bind(null, k)}
-              >
-                {written ? "수정" : "작성"}
-              </Button>
+              <div className="flex items-center gap-2">
+                {k.isReceived && (
+                  <Chip size="sm" color="success" variant="faded">
+                    접수
+                  </Chip>
+                )}
+                <Button
+                  isLoading={isLoading}
+                  color={written ? "success" : "primary"}
+                  variant="flat"
+                  onClick={handlePush.bind(null, k)}
+                >
+                  {written ? "수정" : "작성"}
+                </Button>
+              </div>
             </div>
           );
         })}

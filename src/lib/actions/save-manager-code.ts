@@ -4,7 +4,7 @@ import Joi from "joi";
 import { ActionResultBase } from "./common/action-result-base";
 import { catchActionApi } from "./common/catch-action-api";
 import { axServer } from "../api/ax-server";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 interface SaveManagerCodeDto {
   managerCode: string;
