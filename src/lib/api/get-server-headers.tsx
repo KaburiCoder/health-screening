@@ -1,3 +1,4 @@
+import { EnvData } from "@/contants/env-data";
 import { headers } from "next/headers";
 
 export function getServerHeaders() {
@@ -11,7 +12,7 @@ export function getServerHeaders() {
   // console.log(headersArray);
 
   copyHeaders["cookie"] = headersList.get("cookie") as string;
-  copyHeaders["host"] = process.env.NEXT_PUBLIC_DOMAIN!;
+  copyHeaders["host"] = EnvData.DOMAIN;
 
   return copyHeaders;
 }

@@ -1,8 +1,9 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    NEXT_PUBLIC_BACKEND_URL?: string;
-    SERVER_SIDE_BACKEND_URL?: string;
-    JWT_KEY?: string;
-    ENC_KEY?: string;
+    // common
+    NEXT_ENV?: string;
+    ADMIN_KEY?: string;
+    // production
+    NEXT_PUBLIC_SERVER_URL?: string;
   }
 }

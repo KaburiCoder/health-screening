@@ -1,4 +1,4 @@
-FROM node:20-alpine 
+FROM node:20-alpine  
 
 WORKDIR /app
 
@@ -8,14 +8,19 @@ RUN corepack enable pnpm && pnpm i --frozen-lockfile
 
 COPY . .
 
-CMD ["npm", "run", "tb"]
+# ENV NODE_ENV production
+# ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
 
-# RUN npm run build
+# CMD ["npm", "run", "tb"]
 
-# CMD [ "npm", "run", "start" ]
+RUN npm run build
+CMD [ "npm", "run", "start" ]
 
 
 # FROM node:20-alpine AS base
+
+# ARG NEXT_PUBLIC_BACKEND_URL
+# ARG JWT_KEY="JWT2"
 
 # # Install dependencies only when needed
 # FROM base AS deps
@@ -56,6 +61,8 @@ CMD ["npm", "run", "tb"]
 # WORKDIR /app
 
 # ENV NODE_ENV production
+# ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+# ENV JWT_KEY=${JWT_KEY}
 # # Uncomment the following line in case you want to disable telemetry during runtime.
 # # ENV NEXT_TELEMETRY_DISABLED 1
 

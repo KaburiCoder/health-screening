@@ -1,9 +1,10 @@
 import axios from "axios";
 import { getServerHeaders } from "./get-server-headers";
+import { EnvData } from "@/contants/env-data";
 
-export function axServer() {
+export function axServer() {  
   return axios.create({
-    baseURL: `${process.env.SERVER_SIDE_BACKEND_URL}/api`,
+    baseURL: `${EnvData.SERVER_URL}/api`,
     headers: { ...getServerHeaders() },
   });
 }

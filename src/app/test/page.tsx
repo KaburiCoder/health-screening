@@ -1,23 +1,14 @@
-"use client";
-import { axClient } from "@/lib/api/ax-client";
-import { Button } from "@nextui-org/react";
 import React from "react";
 import { testApi } from "./server-api";
-
-export default function TestPage() {
+export const dynamic = 'force-dynamic';
+export default async function TestPage() {
+  // const data = await testApi();
   return (
     <div>
-      <Button
-        onClick={() => {
-          testApi();
-        }}
-      >
-        Test
-      </Button>
+      {/* <div>{process.env.ENV_LOC}</div>
+      <div>서버: {JSON.stringify(data)}</div>
       <div>주소: `{process.env.NEXT_PUBLIC_BACKEND_URL}`</div>
-      <div>
-        ingress: `{"ingress-nginx-controller.ingress-nginx.svc.cluster.local"}`
-      </div>
+      <div>도메인: {process.env.NEXT_PUBLIC_DOMAIN}</div> */}
     </div>
   );
 }
