@@ -1,0 +1,37 @@
+html {
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+th {
+  background-color: rgb(248, 251, 255);
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  padding: 2px 4px;
+}
+
+td {
+  border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+}
+
+td:last-child {
+  border-right: none;
+}
+
+th:last-child {
+  border-right: none;
+}
+
+tfoot {
+  color: gray;
+}
+
+tfoot th {
+  font-weight: normal;
+}
+
+button:disabled {
+  opacity: 0.5;
+}

@@ -18,7 +18,7 @@ export function Hero({
 }: Props) {
   return (
     <div>
-      <header className="sticky top-0 flex h-[3rem] w-full items-center justify-between bg-slate-600 px-2">
+      <header className="sticky top-0 flex h-[3rem] w-full items-center justify-between bg-slate-600 px-2 z-50">
         <div className="relative h-full w-full">
           <div className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-2 text-white">
             <ClickIcon />
@@ -39,7 +39,7 @@ export function Hero({
           </div>
         </div>
       </header>
-      <nav className="fixed left-0 hidden h-full w-[12rem] border-r border-r-slate-200 md:block">
+      <nav className="fixed left-0 hidden h-[calc(100%-3rem)] w-[12rem] border-r border-r-slate-200 md:block">
         {navComponent}
       </nav>
       <main className="md:ml-[12rem]">{mainComponent}</main>

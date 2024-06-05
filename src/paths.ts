@@ -14,7 +14,7 @@ export const paths = {
   changepw: (token: string) => `/${token}/changepw`,
   settings: (path: "lockpw") => `/settings/${path}`,
   success: (kind: string) => `/success?kind=${kind}`,
-  adminSettings: (path: "common" | "registuser") => `/admin/settings/${path}`
+  adminSettings: (path: "common" | "users") => `/admin/settings/${path}`
 };
 
 export const apiPaths = {
@@ -24,6 +24,7 @@ export const apiPaths = {
     validate: (token: string) => `/token/${token}/validate`
   },
   users: {
+    root: "/users",
     checkpw: (userId: string) => `/users/${userId}/checkpw`,
     changepw: (userId: string) => `/users/${userId}/changepw`,
     findpw: (userId: string) => `/users/${userId}/findpw`,

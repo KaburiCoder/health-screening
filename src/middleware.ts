@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  return withAuth(request);
+  return withAuth(request, adminPaths(pathname));
 }
 
 function notAuthPaths(pathname: string) {
@@ -25,7 +25,13 @@ function notAuthPaths(pathname: string) {
 }
 
 function allowPaths(pathname: string) {
-  return pathname.startsWith("/images") || pathname.endsWith("/changepw") || pathname.startsWith("/test");
+  return pathname.startsWith("/images") ||
+    pathname.endsWith("/changepw") ||
+    pathname.startsWith("/test");
+}
+
+function adminPaths(pathname: string) {
+  return pathname.startsWith("/admin")
 }
 
 // Routes Middleware should not run on

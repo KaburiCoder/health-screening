@@ -2,7 +2,7 @@ import ManagerCodeForm from "@/components/(admin)/common/manager-code-form";
 import { getAdminSettings } from "@/lib/api/server/get-admin-settings";
 import React from "react";
 
-export default async function SettingsCommonPage() {
+export default async function AdminSettingsCommonPage() {
   const data = await getAdminSettings();
 
   return (

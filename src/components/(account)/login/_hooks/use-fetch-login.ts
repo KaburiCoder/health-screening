@@ -12,7 +12,7 @@ export const useFetchLogin = () => {
     mutationKey: [paths.signin],
     mutationFn: signin,
     onSuccess: (response) => {
-      if (response?.status === 201) {
+      if (response?.status === 200) {
         const data = response.data;
         replace(data.admin ? paths.adminSettings("common") : paths.root);
       }

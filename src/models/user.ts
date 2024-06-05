@@ -3,7 +3,9 @@ export interface User {
   roomKey: string;
   email: string;
   orgName: string;
-  iat: number;
+  createdAt?: Date;
+  updatedAt?: Date;
   admin?: boolean;
+  iat?: number;
   exp?: number;
-}
+} 
