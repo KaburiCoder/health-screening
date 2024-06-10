@@ -5,10 +5,9 @@ export default async function TestPage() {
   // const data = await testApi();
   return (
     <div>
-      {/* <div>{process.env.ENV_LOC}</div>
-      <div>서버: {JSON.stringify(data)}</div>
-      <div>주소: `{process.env.NEXT_PUBLIC_BACKEND_URL}`</div>
-      <div>도메인: {process.env.NEXT_PUBLIC_DOMAIN}</div> */}
+      <div>NEXT_ENV: {process.env.NEXT_ENV}</div>
+      <div>NEXT_PUBLIC_SERVER_URL: {process.env.NEXT_PUBLIC_SERVER_URL}</div>
+      <div>ADMIN_KEY: {process.env.ADMIN_KEY}</div>      
     </div>
   );
 }

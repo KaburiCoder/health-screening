@@ -6,7 +6,11 @@ export default function MainLayout({ children }: ChildrenProps) {
   return (
     <>
       <MainHeader />
-      <main className="w-full select-none">{children}</main>
+      <main className="w-full select-none">
+        <div className="mx-auto flex max-w-screen-lg2 flex-col gap-8 px-4 md:px-20">
+          {children}
+        </div>
+      </main>
     </>
   );
 }

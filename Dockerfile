@@ -13,6 +13,8 @@ COPY . .
 
 # CMD ["npm", "run", "tb"]
 
+EXPOSE 3020
+ENV PORT 3020
 RUN npm run build
 CMD [ "npm", "run", "start" ]
 

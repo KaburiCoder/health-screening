@@ -12,17 +12,15 @@ export default function LifestyleBody() {
   useLsClear();
 
   return (
-    <main className="w-full select-none">
-      <div className="mx-auto flex max-w-screen-lg2 flex-col gap-8 px-4 md:px-20">
-        <CarouselX index={index}>{carouselItems}</CarouselX>
+    <>
+      <CarouselX index={index}>{carouselItems}</CarouselX>
 
-        <LsNextButtons
-          index={index}
-          lastIndex={lastIndex}
-          onPrev={handlePrev}
-          onNext={handleNext}
-        />
-      </div>
-    </main>
+      <LsNextButtons
+        index={index}
+        lastIndex={lastIndex}
+        onPrev={handlePrev}
+        onNext={handleNext}
+      />
+    </>
   );
 }

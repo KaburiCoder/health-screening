@@ -18,7 +18,7 @@ const QuestionaireBody = () => {
   }, []);
 
   return (
-    <div className="mx-auto flex max-w-screen-2xl flex-col gap-8 px-4 md:px-20">
+    <>
       <CarouselX index={index}>{carouselItems}</CarouselX>
       <LsNextButtons
         index={index}
@@ -28,7 +28,7 @@ const QuestionaireBody = () => {
         onNext={handleNext}
       />
       <ScrollDownAnimation />
-    </div>
+    </>
   );
 };
 
