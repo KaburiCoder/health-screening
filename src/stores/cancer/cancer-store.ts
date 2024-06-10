@@ -36,6 +36,7 @@ export enum CancerMensturationState {
   폐경되었음 = "3",
   병력으로_월경하지_않음 = "4",
 }
+ 
 export interface ICancerHasFamily {
   has: CancerHasTh;
   self?: CancerPresence;
@@ -274,9 +275,19 @@ const stateCreator: StateCreator<CancerState & Actions> = (set, get) => {
     }),
     setN9Age: (age) => set(({ n9 }) => ({ n9: { ...n9, age } })),
     setN10State: (state) => set(({ n10 }) => ({ n10: state === CancerMensturationState.폐경되었음 ? { ...n10, state } : { state, age: undefined } })),
-    setN10Age: (age) => set(({ n10 }) => ({ n10: { ...n10, age } })),
+    setN10Age: (age) => set(({ n10 }) => {
+      if (n10?.state !== CancerMensturationState.폐경되었음) {
+        return { n10: { ...n10, age }, n11: undefined }
+      }
+      return { n10: { ...n10, age } }
+    }),
     setN11: (n11) => set(() => ({ n11 })),
-    setN12: (n12) => set(() => ({ n12 })),
+    setN12: (n12) => set(() => {
+      if (n12 === "3") {
+        return { n12, n13: undefined }
+      }
+      return { n12 }
+    }),
     setN13: (n13) => set(() => ({ n13 })),
     setN14: (n14) => set(() => ({ n14 })),
     setN15: (n15) => set(() => ({ n15 })),
@@ -403,6 +414,24 @@ const schema = Joi.object<CancerState>({
         then: Joi.required().messages(inputMessage("10", "폐경연령")),
       })
     }).required(),
-  }).messages(selectMessage("10"))
+  }).messages(selectMessage("10")),
+  n11: Joi.when("n10.state", {
+    is: CancerMensturationState.폐경되었음,
+    then: Joi.string().valid("1", "2", "3", "4", "5").required().messages(selectMessage("11")),
+  }),
+  n12: Joi.when("n9.has", {
+    is: CancerMensturation.n세,
+    then: Joi.string().valid("1", "2", "3").required().messages(selectMessage("12")),
+  }),
+  n13: Joi.when("n12", {
+    is: Joi.exist().valid("1", "2"),
+    then: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("13")),
+    otherwise: Joi.forbidden()
+  }),
+  n14: Joi.string().valid("1", "2", "3").required().messages(selectMessage("14")),
+  n15: Joi.when("n9.has", {
+    is: CancerMensturation.n세,
+    then: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("15")),
+  }),
 });
 

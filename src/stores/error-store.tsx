@@ -1,21 +1,16 @@
 import { StateCreator, create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { LsDrinkingState } from "./lifestyle/ls-drinking-store";
-import { LsExerciseState } from "./lifestyle/ls-exercise-store";
-import { LsNutritionState } from "./lifestyle/ls-nutrition-store";
-import { LsOverweightState } from "./lifestyle/ls-overweight-store";
-import { LsSmokingState } from "./lifestyle/ls-smoking-store";
 import { LifestyleKeys, QnKeys } from "./condition-store";
 
 type ObjectType = { [key: string]: string };
-
+type SelectedKey = QnKeys | LifestyleKeys | "cancer";
 interface State {
-  selectedKey?: QnKeys | LifestyleKeys;
+  selectedKey?: SelectedKey;
   error?: ObjectType;
 }
 
 interface Actions {
-  setError: (selectedKey: LifestyleKeys, error?: ObjectType) => void;
+  setError: (selectedKey: SelectedKey, error?: ObjectType) => void;
   clearError: () => void;
 }
 
