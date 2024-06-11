@@ -4,4 +4,6 @@ export enum EvPaths {
   GetQuestionnaire = "getQuestionnaire",
   SaveLifestyle = "saveLifestyle",
   GetLifestyle = "getLifestyle",
+  SaveCancer = "saveCancer",
+  GetCancer = "getCancer",
 }

@@ -46,8 +46,6 @@ export const useQnController = () => {
 
     if (index === lastIndex) {
       emitAck({
-        key: "",
-        eiAuto: 0,
         ...dataRef.current!,
       });
     }

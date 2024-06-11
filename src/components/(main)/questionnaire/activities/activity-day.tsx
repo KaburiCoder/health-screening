@@ -2,7 +2,7 @@ import { Description } from "@/components/description";
 import { LabeldNumInput } from "@/components/num-input";
 import { IActivityTerm } from "health-screening-shared/interfaces";
 import React, { useRef } from "react";
-import { useFocus } from "../../lifestyle/_hooks/use-focus";
+import { useFocus } from "../../../../lib/hooks/use-focus";
 
 interface Props {
   headmark: string;

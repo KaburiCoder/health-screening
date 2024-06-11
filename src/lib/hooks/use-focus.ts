@@ -10,12 +10,21 @@ export const useFocus = () => {
     setTimeout(() => focusById(id), 100)
   }
 
+  function scrollToFocus(id: string) {
+    return scrollById(id, 55);
+  }
+
+  function scrollToError(id: string) {
+    return scrollById(id, 120);
+  }
+
   const conditions = {
     weekday: (value: number | undefined) => value ? value >= 0 && value <= 7 : false,
     hour: (value: number | undefined) => (value ?? 0) >= 3,
     minute: (value: number | undefined) => (value ?? 0) >= 7,
     month: (value: number | undefined) => (value ?? 0) >= 4,
     year: (value: number | undefined) => (value ?? 0) >= 37,
+    twoDigit: (value: number | undefined) => (value ?? 0) >= 10,
   }
 
   function setValue(
@@ -61,7 +70,7 @@ export const useFocus = () => {
     handleAction(focus, focusById)
   }
 
-  return { conditions, setValue, setValueTrg, setNumValueTrg }
+  return { conditions, scrollToError, focusById, scrollToFocus, focusDelay, setValue, setValueTrg, setNumValueTrg }
 }
 
 interface Trigger {

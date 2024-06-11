@@ -6,7 +6,7 @@ import { lifestyleIds } from "@/lib/objects/lifestyle-obj";
 import { useLsDrinkingStore } from "@/stores/lifestyle/ls-drinking-store";
 import React from "react";
 import { DisabledProps } from "../../../lib/props/disabled-props";
-import { useFocus } from "./_hooks/use-focus";
+import { useFocus } from "../../../lib/hooks/use-focus";
 
 export default function Drinking({ isDisabled }: DisabledProps) {
   const {

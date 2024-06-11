@@ -4,6 +4,7 @@ import { useSelectionPatientStore } from "@/stores/selection-patient-store";
 import { Button, Card, Chip, useDisclosure } from "@nextui-org/react";
 import { useNavQuestionnaire } from "./_hooks/use-nav-questionnaire";
 import { useNavLifestyle } from "./_hooks/use-nav-lifestyle";
+import { useNavCancer } from "./_hooks/use-nav-cancer";
 interface PatientCardProps {
   data: sock.ReceptionPatient;
 }
@@ -11,7 +12,8 @@ interface PatientCardProps {
 export function PatientCard({ data }: PatientCardProps) {
   const { name, birthday, targetName, kinds, diagnose, status } = data;
   const setPatient = useSelectionPatientStore((state) => state.setPatient);
-  const { nav } = useNavQuestionnaire();
+  const { nav: navToGen } = useNavQuestionnaire();
+  const { nav: navToCancer } = useNavCancer();
   const { isLoading, lifestyleModal, openLifestyleModal } = useNavLifestyle({
     eiAuto: data.eiAuto,
     status,
@@ -24,7 +26,7 @@ export function PatientCard({ data }: PatientCardProps) {
       k.kind === sock.EQuestionnaireKind.일반검진 &&
       k.type === sock.EQuestionnaireType.일반
     ) {
-      nav(data.eiAuto, k);
+      navToGen(data.eiAuto, k);
     }
 
     if (k.kind === sock.EQuestionnaireKind.생활습관) {
@@ -37,6 +39,12 @@ export function PatientCard({ data }: PatientCardProps) {
         return alert("일반검진 문진표를 먼저 작성해야합니다.");
       }
       openLifestyleModal();
+    }
+    if (
+      k.kind === sock.EQuestionnaireKind.암검진 &&
+      k.type === sock.EQuestionnaireType.일반
+    ) {
+      navToCancer(data.eiAuto, k, data.sex);
     }
 
     if (
@@ -98,15 +106,11 @@ function getWritten(
   k: sock.QuestionnaireKind,
   status: sock.QuestionnaireStatus,
 ): boolean {
-  if (k.kind === sock.EQuestionnaireKind.일반검진) {
-    return status.generalQn;
-  }
-
   if (k.kind === sock.EQuestionnaireKind.생활습관) {
     return Object.values(status.lifestyle).some((x) => x);
   }
-
-  return false;
+  
+  return k.written;
 }
 
 function getAddExams(k: sock.QuestionnaireKind) {

@@ -11,7 +11,7 @@ import { scrollById } from "@/lib/utils/scroll.util";
 import { questionIds } from "@/lib/objects/questionnaire-obj";
 import { BlurWrapper } from "@/components/blur-wrapper";
 import { QuestionnaireErrorBox } from "../questionnaire-error-box";
-import { useFocus } from "../../lifestyle/_hooks/use-focus";
+import { useFocus } from "../../../../lib/hooks/use-focus";
 
 export default function Drinks7() {
   const n7 = useQuestionStore((state) => state.n7);

@@ -8,7 +8,7 @@ import { DescRadioGroup } from "@/components/desc-radio-group";
 import { lifestyleIds, lsYnItems } from "@/lib/objects/lifestyle-obj";
 import { QnErrorBox } from "@/components/(main)/questionnaire/questionnaire-error-box";
 import { DisabledProps } from "../../../lib/props/disabled-props";
-import { useFocus } from "./_hooks/use-focus";
+import { useFocus } from "../../../lib/hooks/use-focus";
 
 export default function Smoking({ isDisabled }: DisabledProps) {
   const {

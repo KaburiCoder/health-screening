@@ -11,7 +11,7 @@ import { paths } from "@/paths";
 export const useQnSave = () => {
   const { push } = useRouter()
   const { isLoading, emitAck } = useEmitX<
-    SaveQuestionnaireArgs,
+    Partial<SaveQuestionnaireArgs>,
     SaveQuestionnaireResult
   >({
     ev: EvPaths.SaveQuestionnaire,

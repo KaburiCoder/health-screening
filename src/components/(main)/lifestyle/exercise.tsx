@@ -13,7 +13,7 @@ import {
 } from "@/stores/lifestyle/ls-exercise-store";
 import React, { useState } from "react";
 import { DisabledProps } from "../../../lib/props/disabled-props";
-import { useFocus } from "./_hooks/use-focus";
+import { useFocus } from "../../../lib/hooks/use-focus";
 
 export default function Exercise({ isDisabled }: DisabledProps) {
   const {

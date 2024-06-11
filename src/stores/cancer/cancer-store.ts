@@ -3,6 +3,7 @@ import { StateCreator, create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { validateSchema } from "../utils/validate-utli";
 import { inputMessage, selectMessage } from "../lifestyle/joi-messages";
+import { removeEmptyValues } from "@/lib/utils/object.util";
 
 export enum CancerHas {
   예 = "1",
@@ -36,7 +37,7 @@ export enum CancerMensturationState {
   폐경되었음 = "3",
   병력으로_월경하지_않음 = "4",
 }
- 
+
 export interface ICancerHasFamily {
   has: CancerHasTh;
   self?: CancerPresence;
@@ -73,7 +74,7 @@ export interface ICancerN3 {
 }
 
 export interface ICancerN4 {
-  weJoyeong?: string;
+  weJoyung?: string;
   weNesigyung?: string;
   yubang?: string;
   daejangJamhyul?: string;
@@ -132,6 +133,7 @@ export interface ICancerN10 {
 }
 
 export interface CancerState {
+  sex?: "M" | "F";
   n1?: ICancerN1;
   n2?: ICancerN2;
   n3?: ICancerN3;
@@ -150,6 +152,7 @@ export interface CancerState {
 }
 
 interface Actions {
+  setSex: (sex?: "M" | "F") => void;
   setN1Has: (has: CancerHas) => void;
   setN1Symptom: (symptom: string) => void;
   setN2Has: (has: CancerWeight) => void;
@@ -173,12 +176,14 @@ interface Actions {
   setN13: (n13: string) => void;
   setN14: (n14: string) => void;
   setN15: (n15: string) => void;
+  setState: (state: CancerState) => void;
   validate: () => Joi.ValidationResult<CancerState>;
   isMenopause: () => boolean;
   clear: () => void;
 }
 
 const initialState: CancerState = {
+  sex: undefined,
   n1: undefined,
   n2: undefined,
   n3: undefined,
@@ -200,7 +205,7 @@ const stateCreator: StateCreator<CancerState & Actions> = (set, get) => {
 
   return {
     ...initialState,
-    error: undefined,
+    setSex: (sex) => set(() => ({ sex })),
     setN1Has: (has) => set(({ n1 }) => ({ n1: { has, symptom: has === CancerHas.예 ? n1?.symptom : undefined } })),
     setN1Symptom: (symptom) => set(({ n1 }) => ({ n1: { has: n1!.has, symptom } })),
     setN2Has: (has) => set(({ n2 }) => ({ n2: { has, kg: has === CancerWeight.체중감소 ? n2?.kg : undefined } })),
@@ -291,6 +296,7 @@ const stateCreator: StateCreator<CancerState & Actions> = (set, get) => {
     setN13: (n13) => set(() => ({ n13 })),
     setN14: (n14) => set(() => ({ n14 })),
     setN15: (n15) => set(() => ({ n15 })),
+    setState: (state) => set(() => ({ ...removeEmptyValues(state) })),
     isMenopause: () => get().n10?.state === CancerMensturationState.폐경되었음,
     validate: () => validateSchema({ state: get(), initialState, schema }),
     clear: () => set(initialState),
@@ -333,7 +339,15 @@ const customN5toN8Method = (value: any, helpers: Joi.CustomHelpers<any>) => {
   return value;
 }
 
+const femaleCondition = ({ then, sibling }: { then: Joi.SchemaLike, sibling?: boolean }) => {
+  return Joi.when(Joi.ref(sibling ? "sex" : "...sex"), {
+    is: "F",
+    then,
+  })
+}
+
 const schema = Joi.object<CancerState>({
+  sex: Joi.string().valid("M", "F").required(),
   n1: Joi.object<ICancerN1>({
     has: Joi.string().valid(...Object.values(CancerHas)).required().messages(selectMessage("1")),
     symptom: Joi.string().when("has", {
@@ -358,10 +372,16 @@ const schema = Joi.object<CancerState>({
     etc: etcSchema.required().messages(selectMessage("3", "기타")),
   }).required().messages(selectMessage("3")),
   n4: Joi.object<ICancerN4>({
-    weJoyeong: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("4", "위장조영검사")),
+    weJoyung: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("4", "위장조영검사")),
     weNesigyung: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("4", "위내시경")),
+    yubang: femaleCondition({
+      then: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("4", "유방촬영"))
+    }),
     daejangJamhyul: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("4", "분변잠혈반응검사")),
     daejangNesigyung: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("4", "대장내시경")),
+    jagungGyungbu: femaleCondition({
+      then: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("4", "자궁경부세포검사"))
+    }),
     pyeHyungbuCT: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("4", "흉부CT")),
     ganChoumpa: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("4", "간초음파"))
   }).required().messages(selectMessage("4")),
@@ -398,40 +418,61 @@ const schema = Joi.object<CancerState>({
     jinpye: Joi.string().default("1").valid("1", "2"),
     etc: Joi.string().default("1").valid("1", "2"),
   }).custom(customN5toN8Method).required().messages(selectMessage("8")),
-  n9: Joi.object<ICancerN9>({
-    has: Joi.string().required(),
-    age: Joi.number().when("has", {
-      is: CancerMensturation.n세,
-      then: Joi.required().messages(inputMessage("9", "월경 시작 나이"))
-    })
-  }).required().messages(selectMessage("9")),
-  n10: Joi.when("n9.has", {
-    is: CancerMensturation.n세,
-    then: Joi.object<ICancerN10>({
-      state: Joi.string().valid(...Object.values(CancerMensturationState)).required().messages(selectMessage("10")),
-      age: Joi.number().when("state", {
-        is: CancerMensturationState.폐경되었음,
-        then: Joi.required().messages(inputMessage("10", "폐경연령")),
+  n9: femaleCondition({
+    sibling: true,
+    then: Joi.object<ICancerN9>({
+      has: Joi.string().required(),
+      age: Joi.number().when("has", {
+        is: CancerMensturation.n세,
+        then: Joi.required().messages(inputMessage("9", "월경 시작 나이"))
       })
-    }).required(),
-  }).messages(selectMessage("10")),
-  n11: Joi.when("n10.state", {
-    is: CancerMensturationState.폐경되었음,
-    then: Joi.string().valid("1", "2", "3", "4", "5").required().messages(selectMessage("11")),
+    }).required().messages(selectMessage("9")),
   }),
-  n12: Joi.when("n9.has", {
-    is: CancerMensturation.n세,
-    then: Joi.string().valid("1", "2", "3").required().messages(selectMessage("12")),
+  n10: femaleCondition({
+    sibling: true,
+    then: Joi.when("n9.has", {
+      is: CancerMensturation.n세,
+      then: Joi.object<ICancerN10>({
+        state: Joi.string().valid(...Object.values(CancerMensturationState)).required().messages(selectMessage("10")),
+        age: Joi.number().when("state", {
+          is: CancerMensturationState.폐경되었음,
+          then: Joi.required().messages(inputMessage("10", "폐경연령")),
+        })
+      }).required(),
+    }).messages(selectMessage("10")),
   }),
-  n13: Joi.when("n12", {
-    is: Joi.exist().valid("1", "2"),
-    then: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("13")),
-    otherwise: Joi.forbidden()
+  n11: femaleCondition({
+    sibling: true,
+    then: Joi.when("n10.state", {
+      is: CancerMensturationState.폐경되었음,
+      then: Joi.string().valid("1", "2", "3", "4", "5").required().messages(selectMessage("11")),
+    }),
   }),
-  n14: Joi.string().valid("1", "2", "3").required().messages(selectMessage("14")),
-  n15: Joi.when("n9.has", {
-    is: CancerMensturation.n세,
-    then: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("15")),
+  n12: femaleCondition({
+    sibling: true,
+    then: Joi.when("n9.has", {
+      is: CancerMensturation.n세,
+      then: Joi.string().valid("1", "2", "3").required().messages(selectMessage("12")),
+    }),
+  }),
+  n13: femaleCondition({
+    sibling: true,
+    then: Joi.when("n12", {
+      is: Joi.exist().valid("1", "2"),
+      then: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("13")),
+      otherwise: Joi.forbidden()
+    }),
+  }),
+  n14: femaleCondition({
+    sibling: true, then: Joi.string().valid("1", "2", "3").required().messages(selectMessage("14")),
+  }),
+  n15: femaleCondition({
+    sibling: true,
+    then: Joi.when("n9.has", {
+      is: CancerMensturation.n세,
+      then: Joi.string().valid("1", "2", "3", "4").required().messages(selectMessage("15")),
+    }),
   }),
 });
+
 

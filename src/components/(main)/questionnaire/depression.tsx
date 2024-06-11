@@ -4,7 +4,7 @@ import { QnErrorBox } from "@/components/(main)/questionnaire/questionnaire-erro
 import { Title } from "@/components/title";
 import React from "react";
 import { DisabledProps } from "@/lib/props/disabled-props";
-import { useFocus } from "../lifestyle/_hooks/use-focus";
+import { useFocus } from "../../../lib/hooks/use-focus";
 import { useQnDepressionStore } from "@/stores/questionnaire/gn-depression-store";
 import { questionIds } from "@/lib/objects/questionnaire-obj";
 import { getLoopItems } from "./_utils/get-loop-items";

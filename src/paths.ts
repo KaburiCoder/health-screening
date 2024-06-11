@@ -7,6 +7,7 @@ export const paths = {
   findPw: "/findpw",
   questionnaire: "/questionnaire",
   lifestyle: "/lifestyle",
+  cancer: "/cancer",
   images: {
     eClickIco: "/images/eClick48x48.ico",
     mainLogo: "/images/main_logo.png",

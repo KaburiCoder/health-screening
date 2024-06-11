@@ -1,6 +1,7 @@
 import { useSocketIO } from "kbr-nextjs-shared/hooks";
 import { EvPaths } from "../ev-paths";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export interface UseEmitArgs<TResult> {
   ev: EvPaths;
@@ -11,16 +12,27 @@ export const useEmit = <TArgs, TResult>({ ev, onSuccess }: UseEmitArgs<TResult>)
   const { socket, isConnected } = useSocketIO();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<TResult>();
+  const [error, setError] = useState<Error>();
 
   async function emitAck(args: TArgs) {
     if (!isConnected) return;
 
     setIsLoading(true);
-    const result = (await socket?.emitWithAck(ev, args)) as TResult;
-    setData(result);
-    onSuccess?.(result);
-    setIsLoading(false);
+    try {
+      const result = (await socket?.timeout(10000).emitWithAck(ev, args)) as TResult;
+      setData(result);
+      onSuccess?.(result);
+      return result;
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error);
+      } else {
+        toast.error(`알 수 없는 에러 발생: ${(error as any)?.message}`)
+      }
+    } finally {
+      setIsLoading(false);
+    }
   }
 
-  return { data, isConnected, isLoading, emitAck };
+  return { data, isConnected, isLoading, error, emitAck };
 };

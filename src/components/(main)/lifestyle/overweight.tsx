@@ -5,7 +5,7 @@ import { Title } from "@/components/title";
 import { lifestyleIds, lsYnItems } from "@/lib/objects/lifestyle-obj";
 import { useLsOverweightStore } from "@/stores/lifestyle/ls-overweight-store";
 import React from "react";
-import { useFocus } from "./_hooks/use-focus";
+import { useFocus } from "../../../lib/hooks/use-focus";
 
 export default function Overweight() {
   const { n1, n2, n3, setN1, setN2, setN3 } = useLsOverweightStore();
