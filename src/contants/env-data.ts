@@ -1,16 +1,8 @@
-export const dynamic = 'force-dynamic';
+const ingressDomain = "ingress-nginx-controller.ingress-nginx.svc.cluster.local"
 
 export class EnvData {
-  public static IS_PRODUCT: boolean = process.env.NODE_ENV === "production";
-  public static IS_INGRESS: boolean = process.env.NEXT_ENV === "ingress";
-  public static DOMAIN = EnvData.IS_PRODUCT
-    ? "hs.click-soft.co.kr"
-    : "localhost:4020";
-  public static BASE_URL: string = EnvData.IS_PRODUCT
-    ? `https://${EnvData.DOMAIN}`
-    : `http://${EnvData.DOMAIN}`;
-  public static SERVER_URL = EnvData.IS_INGRESS
-    ? process.env.NEXT_PUBLIC_SERVER_URL
-    : EnvData.BASE_URL;
-
+  public static NEXT_ENV: string = process.env.NEXT_ENV!;
+  public static DOMAIN: string = process.env.NEXT_PUBLIC_CLIENT_DOMAIN!;
+  public static CLIENT_URL: string = process.env.NEXT_PUBLIC_CLIENT_URL!;
+  public static SERVER_URL: string = process.env.NEXT_PUBLIC_SERVER_URL!;
 }

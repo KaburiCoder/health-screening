@@ -14,7 +14,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NextUIProvider className="min-h-screen bg-background font-sans antialiased">
       <QueryClientProvider client={queryClient}>
-        <SocketIOProvider uri={EnvData.BASE_URL} path="/api/socket.io">
+        <SocketIOProvider uri={EnvData.CLIENT_URL} path="/api/socket.io">
           <WindowScrollProvider>
             {children}
             <Toaster />

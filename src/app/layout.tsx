@@ -3,6 +3,8 @@ import "./globals.css";
 import { natoSansKR } from "@/fonts/fonts";
 import { cn } from "@/lib/utils";
 import { Providers } from "../providers/providers";
+import { EnvData } from "@/contants/env-data";
+import { unstable_noStore as noStore } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,6 +16,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (EnvData.NEXT_ENV === "ingress") noStore();
   return (
     <html lang="en">
       <body className={cn(natoSansKR.className)}>

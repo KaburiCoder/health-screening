@@ -2,7 +2,7 @@
 const nextConfig = {
   experimental: {
     serverActions: {
-      allowedOrigins: ["hs.click-soft.co.kr"],
+      allowedOrigins: [process.env.NEXT_PUBLIC_CLIENT_URL],
     },
   },
   reactStrictMode: false,

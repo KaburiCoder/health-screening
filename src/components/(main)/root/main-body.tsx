@@ -38,9 +38,9 @@ export default function MainBody() {
   });
 
   const emitIfConnected = () => {
-    // if (isConnected && user?.roomKey) {
-    emitAck({ key: user?.roomKey ?? "" });
-    // }
+    if (isConnected) {
+      emitAck({ key: user?.roomKey ?? "" });
+    }
   };
 
   useInterval(emitIfConnected, 10000);

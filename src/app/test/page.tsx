@@ -1,13 +1,17 @@
 import React from "react";
 import { testApi } from "./server-api";
-export const dynamic = 'force-dynamic';
+import { EnvData } from "@/contants/env-data";
+
 export default async function TestPage() {
-  // const data = await testApi();
+  const data = await testApi();
   return (
     <div>
+      <div>{JSON.stringify(data)}</div>
+      <div>---------------</div>
+      <div>BASE_URL: {EnvData.CLIENT_URL}</div>
       <div>NEXT_ENV: {process.env.NEXT_ENV}</div>
       <div>NEXT_PUBLIC_SERVER_URL: {process.env.NEXT_PUBLIC_SERVER_URL}</div>
-      <div>ADMIN_KEY: {process.env.ADMIN_KEY}</div>      
+      <div>ADMIN_KEY: {process.env.ADMIN_KEY}</div>
     </div>
   );
 }
