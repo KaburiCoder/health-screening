@@ -109,7 +109,7 @@ function getWritten(
   if (k.kind === sock.EQuestionnaireKind.생활습관) {
     return Object.values(status.lifestyle).some((x) => x);
   }
-  
+
   return k.written;
 }
 

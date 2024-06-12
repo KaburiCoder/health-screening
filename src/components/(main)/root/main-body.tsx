@@ -8,17 +8,18 @@ import {
   GetReceptionPatientsResult,
   ReceptionPatient,
 } from "health-screening-shared/interfaces.socket";
-import { Button, Divider, Input, UseDisclosureProps } from "@nextui-org/react";
+import { Button, Divider, Input } from "@nextui-org/react";
 import { useEffect } from "react";
 import { PatientCard } from "./patient-card";
 import { RefreshCw, Search } from "lucide-react";
 import toast from "react-hot-toast";
 import { useSearchText } from "@/lib/hooks/use-search-text";
 import { useInterval } from "@/lib/hooks/use-interval";
+import { useEmitX } from "@/lib/hooks/use-emit-x";
 
 export default function MainBody() {
   const { user } = useServerCookie();
-  const { data, isConnected, emitAck } = useEmit<
+  const { data, isConnected, emitAck } = useEmitX<
     GetReceptionPatientsArgs,
     GetReceptionPatientsResult
   >({

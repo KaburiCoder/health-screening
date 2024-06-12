@@ -8,7 +8,7 @@ export interface UseEmitArgs<TResult> {
   onSuccess?: (value: TResult) => void;
 }
 
-export const useEmit = <TArgs, TResult>({ ev, onSuccess }: UseEmitArgs<TResult>) => {
+export const useEmit = <TArgs, TResult extends object>({ ev, onSuccess }: UseEmitArgs<TResult>) => {
   const { socket, isConnected } = useSocketIO();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<TResult>();
@@ -21,6 +21,13 @@ export const useEmit = <TArgs, TResult>({ ev, onSuccess }: UseEmitArgs<TResult>)
     try {
       const result = (await socket?.timeout(10000).emitWithAck(ev, args)) as TResult;
       setData(result);
+      if ('status' in result
+        && 'message' in result
+        && result.status === 'error'
+        && typeof result.message === 'string'
+      ) {
+        throw new Error(result.message)
+      }
       onSuccess?.(result);
       return result;
     } catch (error) {
