@@ -1,8 +1,7 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import { useServerCookie } from "@/lib/hooks/use-server-cookie";
-import { EvPaths } from "@/socket-io/ev-paths";
-import { useEmit } from "@/socket-io/hooks/use-emit";
+import { EvPaths } from "@/socket-io/ev-paths"; 
 import {
   GetReceptionPatientsArgs,
   GetReceptionPatientsResult,

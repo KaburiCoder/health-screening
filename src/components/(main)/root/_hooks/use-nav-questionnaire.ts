@@ -1,14 +1,14 @@
 'use client'
 import { useServerCookie } from "@/lib/hooks/use-server-cookie";
 import { paths } from "@/paths";
-import { EvPaths } from "@/socket-io/ev-paths";
-import { useEmit } from "@/socket-io/hooks/use-emit";
+import { EvPaths } from "@/socket-io/ev-paths"; 
 import { QnKeys, useConditionStore } from "@/stores/condition-store";
 import { useQuestionStore } from "@/stores/questionnaire/question-store";
 import { useRouter } from "next/navigation";
 import * as sock from "health-screening-shared/interfaces.socket";
 import { useQnDepressionStore } from "@/stores/questionnaire/gn-depression-store";
 import { useQnCognitiveStore } from "@/stores/questionnaire/gn-cognitive-store";
+import { useEmitX } from "@/lib/hooks/use-emit-x";
 
 export const useNavQuestionnaire = () => {
   const { setAddList } = useConditionStore();
@@ -17,7 +17,7 @@ export const useNavQuestionnaire = () => {
   const setCognitiveState = useQnCognitiveStore(state => state.setState)
   const { push } = useRouter();
   const { user } = useServerCookie();
-  const { emitAck } = useEmit<any, any>({
+  const { emitAck } = useEmitX<any, any>({
     ev: EvPaths.GetQuestionnaire,
     onSuccess: ({ data }) => {
       setGenState({
@@ -43,7 +43,6 @@ export const useNavQuestionnaire = () => {
     if (!k.written) return push(paths.questionnaire);
 
     emitAck({
-      key: user?.roomKey,
       eiAuto: eiAuto,
       addExam: isEldery,
       kind: k.kind,
