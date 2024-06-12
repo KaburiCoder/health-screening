@@ -16,7 +16,6 @@ export const useNavQuestionnaire = () => {
   const setDepressionState = useQnDepressionStore(state => state.setState)
   const setCognitiveState = useQnCognitiveStore(state => state.setState)
   const { push } = useRouter();
-  const { user } = useServerCookie();
   const { emitAck } = useEmitX<any, any>({
     ev: EvPaths.GetQuestionnaire,
     onSuccess: ({ data }) => {
