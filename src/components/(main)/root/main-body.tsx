@@ -43,6 +43,7 @@ export default function MainBody() {
   });
 
   const emitIfConnected = () => {
+    
     if (isConnected && user?.roomKey) {
       emitAck({ key: user.roomKey });
     }
