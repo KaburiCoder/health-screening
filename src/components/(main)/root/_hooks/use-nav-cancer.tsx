@@ -5,14 +5,12 @@ import { EvPaths } from "@/socket-io/ev-paths";
 import { useCancerStore } from "@/stores/cancer/cancer-store";
 import { QuestionnaireKind } from "health-screening-shared/interfaces.socket";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
 
 export const useNavCancer = () => {
   const { push } = useRouter();
   const setState = useCancerStore((state) => state.setState);
   const setSex = useCancerStore((state) => state.setSex);
-  const { emitAck, error } = useEmitX<any, SocketResponse<any>>({
+  const { emitAck } = useEmitX<any, SocketResponse<any>>({
     ev: EvPaths.GetCancer,
   });
   async function nav(eiAuto: number, k: QuestionnaireKind, sex: string) {
@@ -29,10 +27,5 @@ export const useNavCancer = () => {
     }
   }
 
-  useEffect(() => {
-    if (!error) return;
-
-    toast.error(error.message);
-  }, [error]);
   return { nav };
 };

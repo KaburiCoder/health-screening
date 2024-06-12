@@ -19,7 +19,7 @@ export const CancerSubmit = () => {
   const { setError } = useErrorStore();
   const validate = useCancerStore((state) => state.validate);
 
-  const { error, isLoading, emitAck } = useEmitX<any, SocketResponse<any>>({
+  const { isLoading, emitAck } = useEmitX<any, SocketResponse<any>>({
     ev: EvPaths.SaveCancer,
     onSuccess: ({ status }) => {
       if (status === "success") {
@@ -39,12 +39,6 @@ export const CancerSubmit = () => {
     setError("cancer", undefined);
     await emitAck(value);
   }
-
-  useEffect(() => {
-    if (!error) return;
-
-    toast.error(error.message);
-  }, [error]);
 
   return (
     <LsNextButtons

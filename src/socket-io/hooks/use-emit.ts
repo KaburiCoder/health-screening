@@ -15,7 +15,10 @@ export const useEmit = <TArgs, TResult extends object>({ ev, onSuccess }: UseEmi
   const [error, setError] = useState<Error>();
 
   async function emitAck(args: TArgs) {
-    if (!isConnected) return;
+    if (!isConnected) {
+      toast.error("소켓 연결이 끊어졌습니다.");
+      return;
+    }
 
     setIsLoading(true);
     try {
@@ -33,6 +36,7 @@ export const useEmit = <TArgs, TResult extends object>({ ev, onSuccess }: UseEmi
     } catch (error) {
       if (error instanceof Error) {
         setError(error);
+        toast.error(error.message);
       } else {
         toast.error(`알 수 없는 에러 발생: ${(error as any)?.message}`)
       }

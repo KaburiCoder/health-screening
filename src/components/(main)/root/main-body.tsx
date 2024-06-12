@@ -23,11 +23,6 @@ export default function MainBody() {
     GetReceptionPatientsResult
   >({
     ev: EvPaths.GetReceptionPatients,
-    onSuccess: ({ status, message }) => {
-      if (status === "error") {
-        toast.error(message ?? "알 수 없는 오류가 발생했습니다.");
-      }
-    },
   });
 
   const processedData = useMemo(
@@ -43,10 +38,9 @@ export default function MainBody() {
   });
 
   const emitIfConnected = () => {
-    
-    if (isConnected && user?.roomKey) {
-      emitAck({ key: user.roomKey });
-    }
+    // if (isConnected && user?.roomKey) {
+    emitAck({ key: user?.roomKey ?? "" });
+    // }
   };
 
   useInterval(emitIfConnected, 10000);

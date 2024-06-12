@@ -15,7 +15,6 @@ import { useLsDrinkingStore } from "@/stores/lifestyle/ls-drinking-store";
 import { useLsExerciseStore } from "@/stores/lifestyle/ls-exercise-store";
 import { useLsNutritionStore } from "@/stores/lifestyle/ls-nutrition-store";
 import { useLsOverweightStore } from "@/stores/lifestyle/ls-overweight-store";
-import toast from "react-hot-toast";
 
 interface Args {
   eiAuto: number;
@@ -33,17 +32,16 @@ export const useNavLifestyle = ({ eiAuto, status, diagnose }: Args) => {
 
   const { isLoading, emitAck } = useEmitX({
     ev: EvPaths.GetLifestyle,
-    onSuccess: ({ status, data, message }: any) => {
-      if (status === "error") {
-        return toast.error(message);
-      }
-      if (data?.smoking) setSmokingState(data.smoking);
-      if (data?.drinking) setDrinkingState(data.drinking);
-      if (data?.exercise) setExerciseState(data.exercise);
-      if (data?.nutrition) setNutritionState(data.nutrition);
-      if (data?.overweight) setOverweightState(data.overweight);
+    onSuccess: ({ status, data }: any) => {
+      if (status === "success") {
+        if (data?.smoking) setSmokingState(data.smoking);
+        if (data?.drinking) setDrinkingState(data.drinking);
+        if (data?.exercise) setExerciseState(data.exercise);
+        if (data?.nutrition) setNutritionState(data.nutrition);
+        if (data?.overweight) setOverweightState(data.overweight);
 
-      push(paths.lifestyle);
+        push(paths.lifestyle);
+      }
     },
   });
 

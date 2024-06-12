@@ -26,7 +26,7 @@ interface LockCardProps {
 
 function LockCard({ onSuccess }: LockCardProps) {
   const [pwds, setPwds] = useState<number[]>([]);
-  const { lockPw } = useLockpw();
+  const { lockPw, reloadLockpw } = useLockpw();
   function handleNumClick(num: number): void {
     setPwds((prev) => {
       if (prev.length < 4) {
@@ -41,6 +41,7 @@ function LockCard({ onSuccess }: LockCardProps) {
   }
 
   useEffect(() => {
+    if (!lockPw) return reloadLockpw();
     const ok = pwds.join("") === lockPw;
     if (ok) onSuccess();
   }, [pwds, lockPw]);

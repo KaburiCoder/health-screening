@@ -12,18 +12,24 @@ export const useLockpw = () => {
     gcTime: 1000 * 60 * 5,
     staleTime: 1000 * 60 * 5,
   });
+
   const { mutate, isPending } = useMutation({
     mutationKey: [key],
     mutationFn: saveLockPw,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [key] });
+      reloadLockpw();
       toast.success("잠금 비밀번호가 변경되었습니다.");
     },
   });
+
+  const reloadLockpw = () => {
+    queryClient.invalidateQueries({ queryKey: [key] });
+  };
 
   return {
     isLoading: isLoading || isPending,
     lockPw: data?.lockPw,
     mutate,
+    reloadLockpw,
   };
 };
