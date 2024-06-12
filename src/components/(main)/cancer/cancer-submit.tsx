@@ -1,5 +1,5 @@
 import { Button } from "@nextui-org/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useCancerStore } from "@/stores/cancer/cancer-store";
 import { flattenJoiError } from "health-screening-shared/joi";
 import { useErrorStore } from "@/stores/error-store";
@@ -7,16 +7,24 @@ import { useFocus } from "@/lib/hooks/use-focus";
 import { EvPaths } from "@/socket-io/ev-paths";
 import { useEmitX } from "@/lib/hooks/use-emit-x";
 import ErrorBox from "@/components/error-box";
+import { SocketResponse } from "@/lib/types/socket-response";
+import { useRouter } from "next/navigation";
+import { paths } from "@/paths";
+import LsNextButtons from "../lifestyle/ls-next-buttons";
+import toast from "react-hot-toast";
 
 export const CancerSubmit = () => {
-  const validate = useCancerStore((state) => state.validate);
+  const { push } = useRouter();
   const { scrollToError } = useFocus();
   const { setError } = useErrorStore();
+  const validate = useCancerStore((state) => state.validate);
 
-  const { error, isLoading, emitAck } = useEmitX({
+  const { error, isLoading, emitAck } = useEmitX<any, SocketResponse<any>>({
     ev: EvPaths.SaveCancer,
-    onSuccess: (data) => {
-      console.log("data", data);
+    onSuccess: ({ status }) => {
+      if (status === "success") {
+        push(paths.success("암 문진표"));
+      }
     },
   });
 
@@ -32,12 +40,18 @@ export const CancerSubmit = () => {
     await emitAck(value);
   }
 
+  useEffect(() => {
+    if (!error) return;
+
+    toast.error(error.message);
+  }, [error]);
+
   return (
-    <div className="fixed right-20 top-20 w-44">
-      <Button isLoading={isLoading} onClick={handleClick}>
-        확인
-      </Button>
-      <ErrorBox errorMessage={error?.message} />
-    </div>
+    <LsNextButtons
+      isLoading={isLoading}
+      index={0}
+      lastIndex={0}
+      onNext={handleClick}
+    />
   );
 };
