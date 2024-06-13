@@ -23,13 +23,13 @@ jobs:
           push: true
           tags: kaburi/hs-client:latest, kaburi/hs-client:${{ github.run_number }}         
 
-      - name: SSH and Deploy
-        uses: appleboy/ssh-action@v1.0.2
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: |
-            cd c:\web-release\health-screening\health-screening & git pull & pnpm i --frozen-lockfile & pnpm deploy:prod
+      # - name: SSH and Deploy
+      #   uses: appleboy/ssh-action@v1.0.2
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     port: ${{ secrets.SSH_PORT }}
+      #     passphrase: ${{ secrets.SSH_PASSPHRASE }}
+      #     script: |
+      #       cd c:\web-release\health-screening\health-screening & git pull & pnpm i --frozen-lockfile & pnpm deploy:prod
