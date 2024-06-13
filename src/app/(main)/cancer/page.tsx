@@ -7,5 +7,5 @@ const CancerPage = () => {
   return <CancerBody />;
 };
 
-export default CancerPage;
-// export default withSelectPatient(CancerPage);
+// export default CancerPage;
+export default withSelectPatient(CancerPage);

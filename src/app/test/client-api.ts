@@ -1,11 +1,10 @@
-'use server'
-
+import { axClient } from "@/lib/api/ax-client";
 import axios from "axios";
-export async function testApi() {
-  // return { isIngress: EnvData.IS_INGRESS }
+
+export async function clientApi() {
   try {
     const response = await axios.create({
-      baseURL: "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local",
+      baseURL: "https://hs.click-soft.co.kr",
       headers: {
         Host: "hs.click-soft.co.kr",
       }
