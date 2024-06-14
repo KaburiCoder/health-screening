@@ -43,7 +43,7 @@ export default function CancerN3Group({
   onEtcKindChange,
 }: Props) {
   const has = n3?.[n3Key]?.has;
-  const { scrollToFocus } = useFocus();
+  const { scrollToFocus, focusDelay } = useFocus();
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     const hasFam = e.target.value as keyof ICancerHasFamily;
     const presence = e.target.checked ? CancerPresence.유 : CancerPresence.무;
@@ -59,6 +59,10 @@ export default function CancerN3Group({
         return scrollToFocus(errorKeys[nextN3Key]!.at(0)!);
       }
       return scrollToFocus(cancerIds.n4);
+    }
+
+    if (n3Key === 'etc' &&  has === CancerHasTh.있다){
+      focusDelay(cancerIds["n3.etc.kind"])
     }
   }
 
