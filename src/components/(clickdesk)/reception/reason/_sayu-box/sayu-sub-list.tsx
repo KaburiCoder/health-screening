@@ -1,8 +1,8 @@
 import React from "react";
-import { ReasonSub } from "../reason-body";
 import { SayuSub } from "./sayu-sub";
+import { ReasonSub } from "@/models/reason-state";
 
-export const SayuSubList = ({ sub }: { sub: ReasonSub[] | undefined; }) => {
+export const SayuSubList = ({ sub }: { sub: ReasonSub[] | undefined }) => {
   if (!sub) return <></>;
 
   return (

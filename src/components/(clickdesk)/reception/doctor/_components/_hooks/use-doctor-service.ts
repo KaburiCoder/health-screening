@@ -1,8 +1,8 @@
 import { apiPaths } from "@/paths";
-import { deleteDoctor } from "@/services/clickdesk/doctor/delete_doctor";
-import { getAllDoctors } from "@/services/clickdesk/doctor/get_all_doctors";
-import { saveDoctor } from "@/services/clickdesk/doctor/save_doctor";
-import { updateDoctorsSeq } from "@/services/clickdesk/doctor/update_doctors_seq";
+import { deleteDoctor } from "@/services/clickdesk/doctor/delete-doctor";
+import { getAllDoctors } from "@/services/clickdesk/doctor/get-all-doctors";
+import { saveDoctor } from "@/services/clickdesk/doctor/save-doctor";
+import { updateDoctorsSeq } from "@/services/clickdesk/doctor/update-doctors-seq";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 

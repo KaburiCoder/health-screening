@@ -1,11 +1,11 @@
-import React, { CSSProperties, HTMLAttributes, useState } from "react";
-import { ReasonState } from "../reason-body";
+import React, { CSSProperties, useState } from "react";
 import { SayuHeader } from "./sayu-header";
 import { SayuBottomButtons } from "./sayu-bottom-buttons";
 import { SayuSubList } from "./sayu-sub-list";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { DraggableAttributes } from "@dnd-kit/core";
 import { cn } from "@nextui-org/react";
+import { ReasonState } from "@/models/reason-state";
 
 export interface SayuBoxProps {
   item: ReasonState;
@@ -15,16 +15,19 @@ export interface SayuBoxProps {
   listeners?: SyntheticListenerMap;
   attributes?: DraggableAttributes;
   style?: CSSProperties;
+  className?: string;
 }
 
 export const SayuBox = React.forwardRef<HTMLDivElement, SayuBoxProps>(
   (
     {
+      className,
       listeners,
       attributes,
       withOpacity,
       isDragging,
       style,
+      item,
       ...props
     }: SayuBoxProps,
     ref,
@@ -42,14 +45,15 @@ export const SayuBox = React.forwardRef<HTMLDivElement, SayuBoxProps>(
     return (
       <div
         className={cn(
-          "flex flex-col overflow-hidden rounded bg-white shadow",
+          "flex min-h-40 flex-col overflow-hidden rounded bg-white shadow",
           withOpacity ? "opacity-50" : "",
           isDragging ? "cursor-grabbing" : "cursor-default",
+          className,
         )}
         ref={ref}
         {...props}
-        {...listeners}
-        {...attributes}
+        // {...listeners}
+        // {...attributes}
         style={inlineStyles}
       >
         <div
@@ -57,10 +61,15 @@ export const SayuBox = React.forwardRef<HTMLDivElement, SayuBoxProps>(
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
         >
-          <SayuHeader {...props} />
-          <SayuSubList sub={props.item.sub} />
+          <SayuHeader
+            attributes={attributes}
+            listeners={listeners}
+            item={item}
+          />
+          <SayuSubList sub={item.sub} />
           <SayuBottomButtons
             className={!isDragging && isHover ? "" : "opacity-0"}
+            item={item}
           />
         </div>
       </div>

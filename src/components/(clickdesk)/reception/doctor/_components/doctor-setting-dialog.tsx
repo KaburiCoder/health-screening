@@ -1,7 +1,7 @@
 import { LoadingOverlay } from "@/components/loading-overlay";
 import { ModalProps } from "@/lib/props/modal-props";
 import { apiPaths } from "@/paths";
-import { getDoctor } from "@/services/clickdesk/doctor/get_doctor";
+import { getDoctor } from "@/services/clickdesk/doctor/get-doctor";
 import styles from "./doctor-grid.module.css";
 import {
   Button,
@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 import { ChildrenProps } from "kbr-nextjs-shared/props";
 import { TimeValue } from "@/models/time-value";
 import { DoctorWorks } from "@/models/doctor-state";
-import { updateDoctor } from "@/services/clickdesk/doctor/update_doctor";
+import { updateDoctor } from "@/services/clickdesk/doctor/update-doctor";
 import { parseAxError } from "@/shared/error-result";
 import { InputX } from "@/components/ui/input-x";
 
