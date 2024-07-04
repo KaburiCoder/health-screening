@@ -5,7 +5,7 @@ import { deleteReason } from "@/services/clickdesk/reason/delete-reason";
 import { useDisclosure } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChildrenProps, ClassNameProps } from "kbr-nextjs-shared/props";
-import { LoaderCircle, Plus, Trash2 } from "lucide-react";
+import { LoaderCircle, Trash2, Wrench } from "lucide-react";
 import React from "react";
 import { SayuSubAddDialog } from "./_sub/sayu-sub-add-dialog";
 
@@ -44,7 +44,7 @@ export const SayuBottomButtons = ({
     <div className={cn("flex gap-[1px] transition-all", className)}>
       <SayuSubAddDialog {...disclosure} item={item} />
       <Wrapper isPending={isPending} onClick={handleAddSub}>
-        <Plus />
+        <Wrench />
       </Wrapper>
       <Wrapper isPending={isPending} onClick={handleDelete}>
         <Trash2 />

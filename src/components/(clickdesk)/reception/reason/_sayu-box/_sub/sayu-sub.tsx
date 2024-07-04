@@ -9,17 +9,17 @@ export const SayuSub = ({ text }: Props) => {
 
   return (
     <li
-      className="flex items-center justify-between"
+      className="relative flex items-center"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
       <div className="flex items-center">
-        <Dot />
+        <Dot className="min-w-6"/>
         {text}
       </div>
       {isHover && (
         <X
-          className="h-4 w-4 rounded-full bg-red-300 p-[2px] text-white hover:cursor-pointer"
+          className="absolute right-0 h-4 w-4 rounded-full bg-rose-300/95 p-[2px] text-white hover:cursor-pointer"
           onClick={() => {
             alert(text);
           }}
