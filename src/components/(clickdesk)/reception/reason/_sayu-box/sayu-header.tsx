@@ -1,6 +1,6 @@
 import React from "react";
-import { SayuBoxProps } from "./sayu-box";
 import { Chip } from "@nextui-org/react";
+import { SayuBoxProps } from "./sayu-box";
 
 export const SayuHeader = ({
   attributes,

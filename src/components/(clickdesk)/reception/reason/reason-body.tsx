@@ -18,8 +18,8 @@ import {
   DragEndEvent,
 } from "@dnd-kit/core";
 import { SayuAdd } from "./_components/sayu-add";
-import { SayuDragCard } from "./_components/sayu-drag-card";
 import { SayuSortableItem } from "./_sayu-box/sayu-sortable-item";
+import { SayuBox } from "./_sayu-box/sayu-box";
 
 export interface ReasonState extends ReasonSub {
   id: string;
@@ -94,7 +94,7 @@ export const ReasonBody = () => {
         </SortableContext>
         <DragOverlay adjustScale style={{ transformOrigin: "0 0 " }}>
           {activeId ? (
-            <SayuDragCard
+            <SayuBox
               item={items.find((item) => item.id === activeId)!}
               isDragging
             />
