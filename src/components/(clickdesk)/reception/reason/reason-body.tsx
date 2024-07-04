@@ -1,19 +1,10 @@
 "use client";
-import React, {
-  CSSProperties,
-  FC,
-  HTMLAttributes,
-  forwardRef,
-  useCallback,
-  useState,
-} from "react";
+import React, { useCallback, useState } from "react";
 import { ClickBodyWrapper } from "../../clickdesk-body-wrapper";
-
 import {
   arrayMove,
   SortableContext,
   rectSortingStrategy,
-  useSortable,
 } from "@dnd-kit/sortable";
 import {
   DndContext,
@@ -26,12 +17,9 @@ import {
   DragStartEvent,
   DragEndEvent,
 } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities"; 
-import { Button } from "@nextui-org/react";
-import { Plus, PlusCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { SayuAdd } from "./_components/sayu-add";
 import { SayuDragCard } from "./_components/sayu-drag-card";
+import { SayuSortableItem } from "./_sayu-box/sayu-sortable-item";
 
 export interface ReasonState extends ReasonSub {
   id: string;
@@ -99,11 +87,9 @@ export const ReasonBody = () => {
         <SortableContext items={items} strategy={rectSortingStrategy}>
           <div className="grid grid-cols-5 gap-2">
             {items.map((item, index) => (
-              <SortableItem key={item.id} item={item} index={index} />
+              <SayuSortableItem key={item.id} item={item} index={index} />
             ))}
-            <SayuAdd onClick={()=> {
-              
-            }}/>
+            <SayuAdd onClick={() => {}} />
           </div>
         </SortableContext>
         <DragOverlay adjustScale style={{ transformOrigin: "0 0 " }}>
@@ -116,40 +102,5 @@ export const ReasonBody = () => {
         </DragOverlay>
       </DndContext>
     </ClickBodyWrapper>
-  );
-};
-
-export type ItemProps = HTMLAttributes<HTMLDivElement> & {
-  withOpacity?: boolean;
-  isDragging?: boolean;
-  item: ReasonState;
-  index: number;
-};
-
-const SortableItem: FC<ItemProps> = (props) => {
-  const {
-    isDragging,
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({ id: props.item.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition: transition || undefined,
-  };
-
-  return (
-    <SayuDragCard
-      ref={setNodeRef}
-      style={style}
-      withOpacity={isDragging}
-      listeners={listeners}
-      attributes={attributes}
-      {...props}
-      {...attributes}
-    />
   );
 };

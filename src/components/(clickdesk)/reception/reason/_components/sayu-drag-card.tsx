@@ -3,7 +3,7 @@ import { CSSProperties, HTMLAttributes, forwardRef } from "react";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { DraggableAttributes } from "@dnd-kit/core";
 import { ReasonState } from "../reason-body";
-import SayuBox from "./sayu-box";
+import SayuBox from "../_sayu-box/sayu-box";
 
 export type ItemProps = HTMLAttributes<HTMLDivElement> &
   DndProps & {
@@ -58,7 +58,6 @@ export const SayuDragCard = forwardRef<HTMLDivElement, ItemProps>(
           attributes={attributes}
           isDragging={isDragging}
         />
-        {/* {id} */}
       </div>
     );
   },
