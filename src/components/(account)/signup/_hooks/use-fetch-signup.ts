@@ -1,4 +1,4 @@
-import { signup } from '@/lib/api/signup';
+import { signup } from '@/services/sign/signup';
 import { useValidate } from '@/lib/hooks/use-validate';
 import { Signup, signupSchema } from '@/models/signup';
 import { paths } from '@/paths';

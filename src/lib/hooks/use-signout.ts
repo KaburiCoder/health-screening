@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { signout } from "../api/signout";
+import { signout } from "../../services/sign/signout";
 import { paths } from "@/paths";
 
 export const useSignout = () => {

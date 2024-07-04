@@ -15,7 +15,11 @@ export const paths = {
   changepw: (token: string) => `/${token}/changepw`,
   settings: (path: "lockpw") => `/settings/${path}`,
   success: (kind: string) => `/success?kind=${kind}`,
-  adminSettings: (path: "common" | "users") => `/admin/settings/${path}`
+  adminSettings: (path: "common" | "users") => `/admin/settings/${path}`,
+  clickdesk: {
+    user: () => `/clickdesk/user/${""}`,
+    reception: (path: "doctor" | "reason") => `/clickdesk/reception/${path}`,
+  },
 };
 
 export const apiPaths = {
@@ -30,5 +34,11 @@ export const apiPaths = {
     changepw: (userId: string) => `/users/${userId}/changepw`,
     findpw: (userId: string) => `/users/${userId}/findpw`,
     changeEmail: "/users/change-email",
-  }
+  },
+  clickdesk: {
+    doctor: "/clickdesk/doctor",
+    doctorId: (id: string) => `/clickdesk/doctor/${id}`,
+    doctorUpdate: (id: string) => `/clickdesk/doctor/${id}/update`,
+    doctorSeq: "/clickdesk/doctor/seq",
+  },
 }

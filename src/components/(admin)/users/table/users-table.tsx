@@ -12,7 +12,7 @@ import UsersTableEl from "./users-table-el";
 import useColumns from "./use-columns";
 import { useQuery } from "@tanstack/react-query";
 import { apiPaths } from "@/paths";
-import { getAllUsers } from "@/lib/api/get-all-users";
+import { getAllUsers } from "@/services/users/get-all-users";
 
 export default function UsersTable() {
   const { data } = useQuery({

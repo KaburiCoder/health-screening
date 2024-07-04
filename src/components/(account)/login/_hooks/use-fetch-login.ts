@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { paths } from "@/paths";
-import { signin } from "@/lib/api/signin";
+import { signin } from "@/services/sign/signin";
 import { useValidate } from "@/lib/hooks/use-validate";
 import React from 'react'
 import { useRouter } from "next/navigation";

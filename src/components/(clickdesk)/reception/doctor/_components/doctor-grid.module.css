@@ -1,0 +1,12 @@
+.grid {
+  display: grid;
+  grid-template-columns: 3rem minmax(8rem, 1fr) minmax(8rem, 1fr) minmax(
+      8rem,
+      1fr
+    ) 5rem 5rem;
+}
+
+.setting_grid {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+}
