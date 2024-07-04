@@ -1,8 +1,8 @@
 import { FC } from "react";
-import { ReasonState } from "../reason-body";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SayuBox } from "./sayu-box";
+import { ReasonState } from "@/models/reason-state";
 
 interface Props {
   item: ReasonState;

@@ -28,9 +28,6 @@ export const SayuAddDialog = ({ isOpen, onOpenChange, onClose }: Props) => {
     mutate({ text: inputRef.current?.value ?? "" });
   }
 
-  console.log("error", error);
-  console.log("data", data);
-
   useEffect(() => {
     if (isOpen) inputRef.current?.focus();
   }, [isOpen]);

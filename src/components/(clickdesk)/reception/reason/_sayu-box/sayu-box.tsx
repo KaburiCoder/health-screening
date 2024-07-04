@@ -1,7 +1,7 @@
 import React, { CSSProperties, useState } from "react";
 import { SayuHeader } from "./sayu-header";
 import { SayuBottomButtons } from "./sayu-bottom-buttons";
-import { SayuSubList } from "./sayu-sub-list";
+import { SayuSubList } from "./_sub/sayu-sub-list";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { DraggableAttributes } from "@dnd-kit/core";
 import { cn } from "@nextui-org/react";
@@ -68,6 +68,7 @@ export const SayuBox = React.forwardRef<HTMLDivElement, SayuBoxProps>(
           />
           <SayuSubList sub={item.sub} />
           <SayuBottomButtons
+            onClick={() => setIsHover(false)}
             className={!isDragging && isHover ? "" : "opacity-0"}
             item={item}
           />

@@ -2,16 +2,24 @@ import { cn } from "@/lib/utils";
 import { ReasonState } from "@/models/reason-state";
 import { apiPaths } from "@/paths";
 import { deleteReason } from "@/services/clickdesk/reason/delete-reason";
+import { useDisclosure } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChildrenProps, ClassNameProps } from "kbr-nextjs-shared/props";
 import { LoaderCircle, Plus, Trash2 } from "lucide-react";
 import React from "react";
+import { SayuSubAddDialog } from "./_sub/sayu-sub-add-dialog";
 
 export interface BottomButtonsProps extends ClassNameProps {
   item: ReasonState;
+  onClick: () => void;
 }
 
-export const SayuBottomButtons = ({ item, className }: BottomButtonsProps) => {
+export const SayuBottomButtons = ({
+  item,
+  className,
+  onClick,
+}: BottomButtonsProps) => {
+  const disclosure = useDisclosure();
   const queryClient = useQueryClient();
   const { isPending, mutate: deleteMutate } = useMutation({
     mutationFn: deleteReason,
@@ -21,19 +29,21 @@ export const SayuBottomButtons = ({ item, className }: BottomButtonsProps) => {
   });
 
   function handleDelete(): void {
+    onClick();
     if (confirm(`내원사유(${item.text})를 삭제 하시겠습니까?`)) {
       deleteMutate({ id: item.id });
     }
   }
 
+  function handleAddSub(): void {
+    onClick();
+    disclosure.onOpen();
+  }
+
   return (
     <div className={cn("flex gap-[1px] transition-all", className)}>
-      <Wrapper
-        isPending={isPending}
-        onClick={() => {
-          console.log("click");
-        }}
-      >
+      <SayuSubAddDialog {...disclosure} item={item} />
+      <Wrapper isPending={isPending} onClick={handleAddSub}>
         <Plus />
       </Wrapper>
       <Wrapper isPending={isPending} onClick={handleDelete}>

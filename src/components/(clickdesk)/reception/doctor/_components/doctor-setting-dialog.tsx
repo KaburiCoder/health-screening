@@ -22,6 +22,8 @@ import { DoctorWorks } from "@/models/doctor-state";
 import { updateDoctor } from "@/services/clickdesk/doctor/update-doctor";
 import { parseAxError } from "@/shared/error-result";
 import { InputX } from "@/components/ui/input-x";
+import { GridTitle } from "@/components/grid-title";
+import { InputEx } from "@/components/index-ex";
 
 const dayMappings: [string, keyof DoctorWorks][] = [
   ["월", "mon"],
@@ -97,11 +99,6 @@ export const DoctorSettingDialog = ({ id, isOpen, onOpenChange }: Props) => {
       return { ...prev, ...data };
     });
   }
-
-  console.table(works);
-  console.log("data", updateData);
-  console.log("error", updateError);
-  console.log("updateData", updateData);
 
   async function handlePress(onClose: () => void) {
     if (!data) return;
@@ -205,14 +202,6 @@ export const DoctorSettingDialog = ({ id, isOpen, onOpenChange }: Props) => {
         </ModalContent>
       </Modal>
     </>
-  );
-};
-
-const GridTitle = ({ children }: ChildrenProps) => {
-  return (
-    <div className="flex items-center justify-center rounded bg-slate-200 p-2">
-      {children}
-    </div>
   );
 };
 
@@ -322,36 +311,6 @@ const TimeInputEx = ({ isDisabled, value, onChange }: TimeInputExProps) => {
       hourCycle={24}
       value={value as any}
       onChange={onChange}
-    />
-  );
-};
-
-interface InputExProps {
-  defaultValue: string | undefined;
-  errorMessage: string | undefined;
-  onChange: (value: string) => void;
-}
-
-const InputEx = ({ defaultValue, errorMessage, onChange }: InputExProps) => {
-  const [value, setValue] = useState<string>();
-
-  useEffect(() => {
-    setValue(defaultValue);
-  }, [defaultValue]);
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    setValue(e.target.value);
-    onChange(e.target.value);
-  }
-
-  return (
-    <InputX
-      classNames={{ input: "text-base" }}
-      variant="bordered"
-      color="primary"
-      value={value ?? ""}
-      onChange={handleChange}
-      errorMessage={errorMessage}
     />
   );
 };

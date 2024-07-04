@@ -24,7 +24,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAllReasons } from "@/services/clickdesk/reason/get-all-reasons";
 import { apiPaths } from "@/paths";
 import { LoadingOverlay } from "@/components/loading-overlay";
-import { updateAllReason } from "@/services/clickdesk/reason/update-all";
+import { updateAllReasons } from "@/services/clickdesk/reason/update-all-reasons";
 
 export const ReasonBody = () => {
   const { data: queryData, isPending: isQueryPending } = useQuery({
@@ -37,7 +37,7 @@ export const ReasonBody = () => {
     data: updateAllData,
     mutate: updateAllMutate,
   } = useMutation({
-    mutationFn: updateAllReason,
+    mutationFn: updateAllReasons,
   });
   console.log(queryData);
 
