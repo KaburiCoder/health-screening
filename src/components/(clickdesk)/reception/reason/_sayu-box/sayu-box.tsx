@@ -52,8 +52,6 @@ export const SayuBox = React.forwardRef<HTMLDivElement, SayuBoxProps>(
         )}
         ref={ref}
         {...props}
-        // {...listeners}
-        // {...attributes}
         style={inlineStyles}
       >
         <div

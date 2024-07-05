@@ -44,7 +44,7 @@ export const ReasonBody = () => {
         <SortableContext items={items} strategy={rectSortingStrategy}>
           <SayuBoxes items={items} />
         </SortableContext>
-        <DragOverlay adjustScale={false} style={{ transformOrigin: "0 0" }}>
+        <DragOverlay style={{ transformOrigin: "0 0" }}>
           {activeId ? (
             <SayuBox
               className="h-full"
