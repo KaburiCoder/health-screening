@@ -1,8 +1,11 @@
+import { GridTitle } from "@/components/grid-title";
+import { InputEx } from "@/components/index-ex";
 import { LoadingOverlay } from "@/components/loading-overlay";
+import { dayMappings } from "@/contants/doctor-constants";
 import { ModalProps } from "@/lib/props/modal-props";
-import { apiPaths } from "@/paths";
-import { getDoctor } from "@/services/clickdesk/doctor/get-doctor";
-import styles from "./doctor-grid.module.css";
+import { cn } from "@/lib/utils";
+import { DoctorWorks } from "@/models/doctor-state";
+import { TimeValue } from "@/models/time-value";
 import {
   Button,
   Checkbox,
@@ -13,103 +16,48 @@ import {
   ModalHeader,
   TimeInput,
 } from "@nextui-org/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
-import { TimeValue } from "@/models/time-value";
-import { DoctorWorks } from "@/models/doctor-state";
-import { updateDoctor } from "@/services/clickdesk/doctor/update-doctor";
-import { parseAxError } from "@/shared/error-result";
-import { GridTitle } from "@/components/grid-title";
-import { InputEx } from "@/components/index-ex";
-import { dayMappings } from "@/contants/doctor-constants";
+import React, { useEffect, useRef, useState } from "react";
+import { useDoctorSettingService } from "../_hooks/use-doctor-setting-service";
+import { useDoctorSettingStates } from "../_hooks/use-doctor-setting-states";
+import styles from "./doctor-grid.module.css";
 
 interface Props extends ModalProps {
   id: string;
 }
 
 export const DoctorSettingDialog = ({ id, isOpen, onOpenChange }: Props) => {
-  const queryClient = useQueryClient();
-  const { data, isPending } = useQuery({
-    queryFn: () => getDoctor(id),
-    queryKey: [apiPaths.clickdesk.doctorId(id), isOpen],
-    enabled: isOpen,
-  });
+  const { data, errResult, isPending, updatesDoctor } = useDoctorSettingService(
+    {
+      id,
+      isOpen,
+    },
+  );
   const {
-    data: updateData,
-    error: updateError,
-    mutateAsync,
-  } = useMutation({
-    mutationFn: updateDoctor,
-    mutationKey: [apiPaths.clickdesk.doctorUpdate(id), isOpen],
-  });
-  const errResult = useMemo(() => parseAxError(updateError), [updateError]);
-  const [works, setWorks] = useState<DoctorWorks>();
-  const [name, setName] = useState<string>();
-  const [kwamokName, setKwamokName] = useState<string>();
-  const [jinchalName, setJinchalName] = useState<string>();
+    works,
+    name,
+    kwamokName,
+    jinchalName,
+    handleSetWorks,
+    setName,
+    setKwamokName,
+    setJinchalName,
+    clearStates,
+  } = useDoctorSettingStates();
 
   useEffect(() => {
-    if (!isOpen) {
-      setWorks(undefined);
-      setName(undefined);
-      setKwamokName(undefined);
-      setJinchalName(undefined);
-    }
+    if (!isOpen) clearStates();
   }, [isOpen]);
-
-  function handleWorkingTimeChange(
-    key: keyof DoctorWorks,
-    checked: boolean,
-    start?: TimeValue | undefined,
-    end?: TimeValue | undefined,
-  ): void {
-    if (start) {
-      start = { hour: start.hour, minute: start.minute };
-    }
-    if (end) {
-      end = { hour: end.hour, minute: end.minute };
-    }
-
-    setWorks((prev) => {
-      const data: DoctorWorks | undefined = checked
-        ? {
-            [key]: [
-              {
-                start,
-                end,
-              },
-            ],
-          }
-        : {
-            [key]: undefined,
-          };
-
-      return { ...prev, ...data };
-    });
-  }
 
   async function handlePress(onClose: () => void) {
     if (!data) return;
 
-    try {
-      await mutateAsync({
-        id: data.id,
-        jinchalName:
-          jinchalName === undefined || jinchalName === data.jinchalName
-            ? undefined
-            : jinchalName,
-        kwamokName:
-          kwamokName === undefined || kwamokName === data.kwamokName
-            ? undefined
-            : kwamokName,
-        name: name === undefined || name === data.name ? undefined : name,
-        works,
-      });
-
-      queryClient.invalidateQueries({ queryKey: [apiPaths.clickdesk.doctor] });
-      onClose();
-    } catch {} // 훅에서 에러처리
+    const success = await updatesDoctor({
+      name,
+      jinchalName,
+      kwamokName,
+      works,
+    });
+    if (success) onClose();
   }
 
   return (
@@ -168,7 +116,7 @@ export const DoctorSettingDialog = ({ id, isOpen, onOpenChange }: Props) => {
                             ? errResult.errors?.[0].message
                             : undefined
                         }
-                        onChange={handleWorkingTimeChange}
+                        onChange={handleSetWorks}
                       />
                     ))}
                   </div>
@@ -266,7 +214,12 @@ const WorkingTime = ({
       firstRef.current = false;
       return;
     }
-    onChange(checked, start, end);
+    const newStart = start
+      ? { hour: start.hour, minute: start.minute }
+      : undefined;
+    const newEnd = end ? { hour: end.hour, minute: end.minute } : undefined;
+
+    onChange(checked, newStart, newEnd);
   }, [checked, start, end]);
 
   return (

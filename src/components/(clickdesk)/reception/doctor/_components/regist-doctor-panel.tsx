@@ -5,7 +5,7 @@ import { ChildrenProps } from "kbr-nextjs-shared/props";
 import { useEffect, useState } from "react";
 import { DoctorState } from "../../../../../models/doctor-state";
 import { DoctorDragging } from "../libs/doctor_dragging";
-import { useDoctorService } from "../_hooks/use-doctor-service";
+import { useRegistDoctorService } from "../_hooks/use-regist-doctor-service";
 import styles from "./doctor-grid.module.css";
 import { RegistDoctorRow } from "./regist-doctor-row";
 import { DoctorSettingDialog } from "./doctor-setting-dialog";
@@ -19,11 +19,11 @@ export const RegistDoctorPanel = () => {
     queryData,
     saveData,
     deleteData,
-    saveMutate,
+    saveDoctor,
     deleteMutate,
     updateSeqMutate,
     isPending,
-  } = useDoctorService();
+  } = useRegistDoctorService();
 
   const doctors = useDoctorStore((state) => state.doctors);
   const setDoctors = useDoctorStore((state) => state.setDoctors);
@@ -50,11 +50,7 @@ export const RegistDoctorPanel = () => {
 
   function handleDropped(state: DoctorState) {
     if (doctors.some((item) => item.code === state.code)) return;
-
-    const { id, ...otherState } = state;
-    const nextSeq =
-      doctors.length > 0 ? Math.max(...doctors.map((item) => item.seq)) + 1 : 1;
-    saveMutate({ ...otherState, seq: nextSeq });
+    saveDoctor(state);
   }
 
   useEffect(() => {

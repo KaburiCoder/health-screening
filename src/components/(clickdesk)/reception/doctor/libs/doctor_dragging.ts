@@ -1,7 +1,6 @@
-import { DoctorState } from "../../../../../models/doctor-state";
+import { DoctorState } from "@/models/doctor-state";
 
 const doctorDraggingKey: string = "doctor_dragging";
-
 export class DoctorDragging {
   static handleDragStart(state: DoctorState, e: React.DragEvent<HTMLLIElement>): void {
     e.dataTransfer.setData(
@@ -18,13 +17,11 @@ export class DoctorDragging {
     if (!doctorState.kwamokName) {
       doctorState.kwamokName = "미등록";
     }
-    
+
     onDropped(doctorState);
   }
 
   static handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
-
-
 }
