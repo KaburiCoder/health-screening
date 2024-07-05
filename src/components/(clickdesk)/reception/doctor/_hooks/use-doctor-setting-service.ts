@@ -23,7 +23,7 @@ export const useDoctorSettingService = ({ id, isOpen }: Args) => {
   });
   const errResult = useMemo(() => parseAxError(updateError), [updateError]);
 
-  async function updatesDoctor({ jinchalName, kwamokName, works }: { name?: string, jinchalName?: string, kwamokName?: string, works?: DoctorWorks }) {
+  async function updatesDoctor({ jinchalName, name, kwamokName, works }: { name?: string, jinchalName?: string, kwamokName?: string, works?: DoctorWorks }) {
     if (!data) return;
 
     try {
@@ -47,7 +47,7 @@ export const useDoctorSettingService = ({ id, isOpen }: Args) => {
     queryClient.invalidateQueries({ queryKey: [apiPaths.clickdesk.doctor] });
     return true;
   }
-  
+
   return {
     data,
     isPending: isPending || isUpdatePending,

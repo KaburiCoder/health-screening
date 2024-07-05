@@ -2,21 +2,21 @@ export class ReasonState implements ReasonSub {
   id!: string;
   text!: string;
   seq!: number;
-  sub?: ReasonSub[] | undefined;
+  subs?: ReasonSub[] | undefined;
 
   static toReasonSubs(reasonStates: ReasonState[]): ReasonSub[] {
     let seq: number = 0;
-    const subs = reasonStates.reduce((subs: ReasonSub[], acc: ReasonState) => {
-      const isTextExisting = subs.some(
+    const subs = reasonStates.reduce((accSubs: ReasonSub[], reasonState: ReasonState) => {
+      const isTextExisting = accSubs.some(
         (sub) =>
-          sub.text.trim().toLowerCase() === acc.text.trim().toLowerCase(),
+          sub.text.trim().toLowerCase() === reasonState.text.trim().toLowerCase(),
       );
 
-      if (isTextExisting || !acc.text.trim()) {
-        return subs;
+      if (isTextExisting || !reasonState.text.trim()) {
+        return accSubs;
       } else {
-        const { id, ...sub } = acc;
-        return subs.concat({ ...sub, seq: ++seq });
+        const { id, ...subs } = reasonState;
+        return accSubs.concat({ ...subs, seq: ++seq });
       }
     }, []);
     return subs;
@@ -26,7 +26,7 @@ export class ReasonState implements ReasonSub {
 export class ReasonSub {
   text!: string;
   seq!: number;
-  sub?: ReasonSub[];
+  subs?: ReasonSub[];
 
   static toState(reasonSub: ReasonSub): ReasonState {
     return { ...reasonSub, id: reasonSub.seq.toString() }

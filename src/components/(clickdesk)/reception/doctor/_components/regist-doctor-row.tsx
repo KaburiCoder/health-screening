@@ -100,6 +100,7 @@ const DoctorWorksItems = ({ works }: { works: DoctorWorks | undefined }) => {
 
   const yoilComponents = yoils.map((yoil) => (
     <span
+      key={yoil}
       className={cn(
         "flex-center h-6 w-6 rounded-full border border-gray-300 px-2",
         yoil === "토" ? "text-blue-500 border-blue-300" : "",

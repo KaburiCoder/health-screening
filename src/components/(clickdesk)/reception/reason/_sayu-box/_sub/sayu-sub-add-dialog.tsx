@@ -27,12 +27,12 @@ export const SayuSubAddDialog = ({
   }
 
   useEffect(() => {
-    const stateList = ReasonSub.toStateList(item.sub).concat(
-      ReasonSub.createState(item.sub),
+    const stateList = ReasonSub.toStateList(item.subs).concat(
+      ReasonSub.createState(item.subs),
     );
 
     setReasonStates(stateList);
-  }, [item.sub, isOpen]);
+  }, [item.subs, isOpen]);
 
   return (
     <SaveDialog
@@ -70,7 +70,7 @@ const SubDivider = () => {
   return (
     <div className="flex items-center gap-4">
       <div className="h-[1px] flex-1 bg-slate-300"></div>
-      <span className="font-bold text-slate-500">하위항목</span>
+      <span className="font-bold text-slate-500">세부항목</span>
       <div className="h-[1px] flex-1 bg-slate-300"></div>
     </div>
   );

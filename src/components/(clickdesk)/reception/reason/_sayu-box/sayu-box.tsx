@@ -1,16 +1,13 @@
-import React, { CSSProperties, useEffect, useState } from "react";
-import { SayuHeader } from "./sayu-header";
-import { SayuBottomButtons } from "./sayu-bottom-buttons";
-import { SayuSubList } from "./_sub/sayu-sub-list";
-import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
-import { DraggableAttributes } from "@dnd-kit/core";
-import { cn, useDisclosure } from "@nextui-org/react";
 import { ReasonState } from "@/models/reason-state";
-import { SayuSubAddDialog } from "./_sub/sayu-sub-add-dialog";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteReason } from "@/services/clickdesk/reason/delete-reason";
-import { apiPaths } from "@/paths";
+import { DraggableAttributes } from "@dnd-kit/core";
+import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import { cn, useDisclosure } from "@nextui-org/react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { useSayuBoxService } from "./_hooks/use-sayu-box-service";
+import { SayuSubAddDialog } from "./_sub/sayu-sub-add-dialog";
+import { SayuSubList } from "./_sub/sayu-sub-list";
+import { SayuBottomButtons } from "./sayu-bottom-buttons";
+import { SayuHeader } from "./sayu-header";
 
 export interface SayuBoxProps {
   item: ReasonState;
@@ -77,7 +74,7 @@ export const SayuBox = React.forwardRef<HTMLDivElement, SayuBoxProps>(
               listeners={listeners}
               item={item}
             />
-            <SayuSubList sub={item.sub} />
+            <SayuSubList subs={item.subs} />
             <SayuBottomButtons
               onAddClick={() => disclosure.onOpen()}
               onDeleteClick={handleDelete}

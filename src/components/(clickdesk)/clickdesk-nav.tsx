@@ -28,6 +28,9 @@ export const ClickdeskNav = () => {
         <AccItem value="1" trigger="사용자 관리"></AccItem>
         <AccItem value="reception" trigger="접수 앱 관리">
           <ul>
+            <AccLi href={paths.clickdesk.reception("hospinfo")}>
+              병원정보 설정
+            </AccLi>
             <AccLi href={paths.clickdesk.reception("doctor")}>
               진료의사 설정
             </AccLi>
@@ -62,13 +65,15 @@ interface AccLiProps extends ChildrenProps {
 const AccLi = ({ href, children }: AccLiProps) => {
   const pathname = usePathname();
   const active = pathname.startsWith(href);
-  
+
   return (
     <li>
       <Link
         href={href}
-        className={cn("flex items-center gap-2 p-2", "hover:bg-slate-100",
-        active? "bg-amber-50 text-amber-600 font-bold" :""
+        className={cn(
+          "flex items-center gap-2 p-2",
+          "hover:bg-slate-100",
+          active ? "bg-amber-50 font-bold text-amber-600" : "",
         )}
       >
         <CircleChevronRight className="h-2 w-2 text-gray-500" />

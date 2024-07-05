@@ -25,7 +25,7 @@ export const useSayuSubAddDialogService = ({ isOpen, onClose }: Args) => {
 
   function update(item: ReasonState, reasonStates: ReasonState[]) {
     const subs = ReasonState.toReasonSubs(reasonStates);
-    const reason: ReasonState = { ...item, sub: subs };
+    const reason: ReasonState = { ...item, subs };
     updateMutate(reason);
   }
 

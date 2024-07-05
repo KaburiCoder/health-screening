@@ -18,7 +18,7 @@ export const paths = {
   adminSettings: (path: "common" | "users") => `/admin/settings/${path}`,
   clickdesk: {
     user: () => `/clickdesk/user/${""}`,
-    reception: (path: "doctor" | "reason") => `/clickdesk/reception/${path}`,
+    reception: (path: "doctor" | "reason" | "hospinfo") => `/clickdesk/reception/${path}`,
   },
 };
 
