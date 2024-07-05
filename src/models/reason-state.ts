@@ -1,5 +1,26 @@
-export interface ReasonState extends ReasonSub {
-  id: string;
+export class ReasonState implements ReasonSub {
+  id!: string;
+  text!: string;
+  seq!: number;
+  sub?: ReasonSub[] | undefined;
+
+  static toReasonSubs(reasonStates: ReasonState[]): ReasonSub[] {
+    let seq: number = 0;
+    const subs = reasonStates.reduce((subs: ReasonSub[], acc: ReasonState) => {
+      const isTextExisting = subs.some(
+        (sub) =>
+          sub.text.trim().toLowerCase() === acc.text.trim().toLowerCase(),
+      );
+
+      if (isTextExisting || !acc.text.trim()) {
+        return subs;
+      } else {
+        const { id, ...sub } = acc;
+        return subs.concat({ ...sub, seq: ++seq });
+      }
+    }, []);
+    return subs;
+  }
 }
 
 export class ReasonSub {

@@ -1,13 +1,10 @@
-import { GridTitle } from "@/components/grid-title";
 import { SaveDialog } from "@/components/save-dialog";
 import { ModalProps } from "@/lib/props/modal-props";
 import { ReasonState, ReasonSub } from "@/models/reason-state";
-import { apiPaths } from "@/paths";
-import { updateReason } from "@/services/clickdesk/reason/update-reason";
-import { Button, Divider } from "@nextui-org/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Grip, GripVertical, PlusCircle, Touchpad, Trash2 } from "lucide-react";
+import { Button } from "@nextui-org/react";
+import { PlusCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { useSayuSubAddDialogService } from "./_hooks/use-sayu-sub-add-dialog-service";
 import { SayuSubDnd } from "./sayu-sub-dnd";
 
 interface Props extends ModalProps {
@@ -20,42 +17,13 @@ export const SayuSubAddDialog = ({
   onOpenChange,
   onClose,
 }: Props) => {
-  const queryClient = useQueryClient();
-  const [subs, setSubs] = useState<ReasonState[]>([]);
-
-  const {
-    data: updateData,
-    mutate: updateMutate,
-    error: updateError,
-  } = useMutation({
-    mutationFn: updateReason,
-    mutationKey: [isOpen],
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [apiPaths.clickdesk.reason] });
-      onClose?.();
-    },
-  });
+  const { updateReason } = useSayuSubAddDialogService({ isOpen, onClose });
+  const [reasonStates, setReasonStates] = useState<ReasonState[]>([]);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    let seq: number = 0;
-    const sub = subs.reduce((subs: ReasonSub[], acc: ReasonState) => {
-      const isTextExisting = subs.some(
-        (sub) =>
-          sub.text.trim().toLowerCase() === acc.text.trim().toLowerCase(),
-      );
-
-      if (isTextExisting || !acc.text.trim()) {
-        return subs;
-      } else {
-        const { id, ...sub } = acc;
-        return subs.concat({ ...sub, seq: ++seq });
-      }
-    }, []);
-
-    const reason: ReasonState = { ...item, sub };
-    updateMutate(reason);
+    updateReason(item, reasonStates);
   }
 
   useEffect(() => {
@@ -63,7 +31,7 @@ export const SayuSubAddDialog = ({
       ReasonSub.createState(item.sub),
     );
 
-    setSubs(stateList);
+    setReasonStates(stateList);
   }, [item.sub, isOpen]);
 
   return (
@@ -73,23 +41,15 @@ export const SayuSubAddDialog = ({
       onOpenChange={onOpenChange}
       onSubmit={handleSubmit}
     >
-      <h3 className="flex-center items-center py-2 text-2xl font-bold">
-        {item.text}
-      </h3>
-      {/* <div className="grid gap-6" style={{ gridTemplateColumns: "8rem 1fr" }}>
-        <GridTitle>내원사유 :</GridTitle>
-        
-      </div> */}
+      <ItemText text={item.text} />
       <SubDivider />
-
-      <SayuSubDnd subs={subs} setSubs={setSubs} />
-
+      <SayuSubDnd subs={reasonStates} setSubs={setReasonStates} />
       <Button
         className="min-h-12"
         variant="light"
         startContent={<PlusCircle />}
         onClick={() => {
-          setSubs((subs) => {
+          setReasonStates((subs) => {
             return subs.concat(ReasonSub.createState(subs));
           });
         }}
@@ -97,6 +57,12 @@ export const SayuSubAddDialog = ({
         추가
       </Button>
     </SaveDialog>
+  );
+};
+
+const ItemText = ({ text }: { text: string }) => {
+  return (
+    <h3 className="flex-center items-center py-2 text-2xl font-bold">{text}</h3>
   );
 };
 

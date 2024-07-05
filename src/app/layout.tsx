@@ -20,7 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(natoSansKR.className)}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <div id="dialog-root"></div>
+          </Providers>
       </body>
     </html>
   );
