@@ -1,21 +1,16 @@
 import { LoadingOverlay } from "@/components/loading-overlay";
 import { cn } from "@/lib/utils";
-import {
-  DragDropContext,
-  Draggable,
-  DropResult,
-  Droppable,
-} from "@hello-pangea/dnd";
 import { useDisclosure } from "@nextui-org/react";
 import { ChildrenProps } from "kbr-nextjs-shared/props";
 import { useEffect, useState } from "react";
 import { DoctorState } from "../../../../../models/doctor-state";
 import { DoctorDragging } from "../libs/doctor_dragging";
-import { useDoctorService } from "./_hooks/use-doctor-service";
+import { useDoctorService } from "../_hooks/use-doctor-service";
 import styles from "./doctor-grid.module.css";
-import { DoctorSettingCard } from "./doctor-setting-card";
+import { RegistDoctorRow } from "./regist-doctor-row";
 import { DoctorSettingDialog } from "./doctor-setting-dialog";
 import { useDoctorStore } from "@/stores/clickdesk/doctor/doctor-store";
+import { SortableList } from "@/components/dnd-kit/sortable-list";
 
 export const RegistDoctorPanel = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -33,26 +28,25 @@ export const RegistDoctorPanel = () => {
   const doctors = useDoctorStore((state) => state.doctors);
   const setDoctors = useDoctorStore((state) => state.setDoctors);
 
-  const handleDragEnd = ({ source, destination }: DropResult) => {
-    if (!destination) return;
-    const updatedItems = Array.from(doctors);
-    const [movedItem] = updatedItems.splice(source.index, 1);
-    updatedItems.splice(destination!.index, 0, movedItem);
-    const startIndex = Math.min(source.index, destination.index);
-    const endIndex = Math.max(source.index, destination.index);
-
-    const changedItemCodes = doctors
-      .filter((_, index) => index >= startIndex && index <= endIndex)
-      .map((item) => item.code);
-
-    const data = changedItemCodes.map((code) => {
-      const foundIndex = updatedItems.findIndex((item) => item.code === code);
-      return { code, seq: foundIndex + 1 };
+  function handleDragEnd({
+    items,
+    startIndex,
+    endIndex,
+  }: {
+    items: DoctorState[];
+    startIndex: number;
+    endIndex: number;
+  }): void {
+    const changedItems = items.filter(
+      (_, index) => index >= startIndex && index <= endIndex,
+    );
+    const codes = changedItems.map((item) => {
+      return { code: item.code, seq: startIndex++ };
     });
 
-    updateSeqMutate({ codes: data });
-    setDoctors(updatedItems);
-  };
+    updateSeqMutate({ codes });
+    setDoctors(items);
+  }
 
   function handleDropped(state: DoctorState) {
     if (doctors.some((item) => item.code === state.code)) return;
@@ -96,32 +90,21 @@ export const RegistDoctorPanel = () => {
         onOpenChange={onOpenChange}
       />
       <GridHeader />
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="droppable">
-          {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              {doctors.map((item, index) => (
-                <Draggable
-                  key={item.code}
-                  draggableId={item.code}
-                  index={index}
-                >
-                  {(provided) => (
-                    <DoctorSettingCard
-                      onSettingsClick={handleSettingsClick}
-                      onDeleteClick={(code) => deleteMutate({ code })}
-                      index={index}
-                      state={item}
-                      provided={provided}
-                    />
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <SortableList
+        items={doctors}
+        className="flex flex-col"
+        onChange={handleDragEnd}
+        renderItem={(item, index) => (
+          <SortableList.Item id={item.id}>
+            <RegistDoctorRow
+              onSettingsClick={handleSettingsClick}
+              onDeleteClick={(code) => deleteMutate({ code })}
+              index={index}
+              state={item}
+            />
+          </SortableList.Item>
+        )}
+      />
     </div>
   );
 };
@@ -133,6 +116,7 @@ const GridHeader = () => {
       <GridHeaderItem>진료실</GridHeaderItem>
       <GridHeaderItem>의사명칭</GridHeaderItem>
       <GridHeaderItem>과목</GridHeaderItem>
+      <GridHeaderItem>근무요일</GridHeaderItem>
       <GridHeaderItem></GridHeaderItem>
       <GridHeaderItem></GridHeaderItem>
     </div>

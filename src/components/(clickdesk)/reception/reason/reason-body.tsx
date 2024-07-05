@@ -39,13 +39,8 @@ export const ReasonBody = () => {
   } = useMutation({
     mutationFn: updateAllReasons,
   });
-  console.log(queryData);
-
-  console.log("updateAllData", updateAllData);
-  console.log("updateAllErorr", updateAllErorr);
 
   const [items, setItems] = useState<ReasonState[]>([]);
-
   const [activeId, setActiveId] = useState<string | null>(null);
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 

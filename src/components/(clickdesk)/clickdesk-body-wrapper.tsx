@@ -6,7 +6,7 @@ interface Props extends ChildrenClassNameProps {
 }
 export const ClickBodyWrapper = ({ title, children, className }: Props) => {
   return (
-    <div className={cn("flex flex-col items-stretch px-10", className)}>
+    <div className={cn("flex flex-col items-stretch px-10 pb-10", className)}>
       <div className="pt-4">
         <h2 className="border-b border-b-amber-500 py-4 text-xl font-bold text-amber-800">
           {title}

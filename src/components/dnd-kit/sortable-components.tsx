@@ -1,12 +1,16 @@
-import React, { createContext, useContext, useMemo } from "react";
-import type { CSSProperties, PropsWithChildren } from "react";
+import { cn } from "@/lib/utils";
 import type {
   DraggableSyntheticListeners,
   UniqueIdentifier,
 } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { ChildrenProps, ClassNameProps } from "kbr-nextjs-shared/props";
+import {
+  ChildrenClassNameProps,
+  ClassNameProps,
+} from "kbr-nextjs-shared/props";
+import type { CSSProperties, PropsWithChildren } from "react";
+import { createContext, useContext, useMemo } from "react";
 
 interface Props {
   id: UniqueIdentifier;
@@ -61,11 +65,19 @@ export function SortableItem({
   );
 }
 
-export function DragHandleWrapper({ children }: ChildrenProps) {
+export function DragHandleWrapper({
+  className,
+  children,
+}: ChildrenClassNameProps) {
   const { attributes, listeners, ref } = useContext(SortableItemContext);
 
   return (
-    <div className="DragHandle" {...attributes} {...listeners} ref={ref}>
+    <div
+      className={cn("DragHandle hover:cursor-grab", className)}
+      {...attributes}
+      {...listeners}
+      ref={ref}
+    >
       {children}
     </div>
   );

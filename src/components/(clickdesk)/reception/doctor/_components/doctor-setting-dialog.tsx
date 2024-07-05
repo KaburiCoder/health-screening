@@ -16,24 +16,13 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { ChildrenProps } from "kbr-nextjs-shared/props";
 import { TimeValue } from "@/models/time-value";
 import { DoctorWorks } from "@/models/doctor-state";
 import { updateDoctor } from "@/services/clickdesk/doctor/update-doctor";
 import { parseAxError } from "@/shared/error-result";
-import { InputX } from "@/components/ui/input-x";
 import { GridTitle } from "@/components/grid-title";
 import { InputEx } from "@/components/index-ex";
-
-const dayMappings: [string, keyof DoctorWorks][] = [
-  ["월", "mon"],
-  ["화", "tue"],
-  ["수", "wed"],
-  ["목", "thu"],
-  ["금", "fri"],
-  ["토", "sat"],
-  ["일", "sun"],
-];
+import { dayMappings } from "@/contants/doctor-constants";
 
 interface Props extends ModalProps {
   id: string;

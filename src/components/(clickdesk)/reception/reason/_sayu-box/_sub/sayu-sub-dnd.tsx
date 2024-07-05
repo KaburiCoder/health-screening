@@ -26,7 +26,7 @@ export const SayuSubDnd = ({ subs, setSubs }: Props) => {
     <SortableList
       items={subs}
       className="flex flex-col gap-2"
-      onChange={setSubs}
+      onChange={({ items }) => setSubs(items)}
       renderItem={(item) => (
         <SortableList.Item id={item.id}>
           <InputRow
