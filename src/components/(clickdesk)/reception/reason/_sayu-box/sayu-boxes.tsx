@@ -12,7 +12,7 @@ export const SayuBoxes = ({ items }: Props) => {
     <div
       className={cn(
         "grid gap-2",
-        "xs:grid-cols-2",
+        "grid-cols-5",
         "md2:grid-cols-3",
         "lg2:grid-cols-4",
         "xl2:grid-cols-5",
