@@ -1,5 +1,5 @@
 import { apiPaths } from '@/paths';
-import { saveReason as fetchSaveReason } from '@/services/clickdesk/reason/save-reason';
+import { SaveReasonArgs, saveReason as fetchSaveReason } from '@/services/clickdesk/reason/save-reason';
 import { parseAxError } from '@/shared/error-result';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useMemo } from 'react'
@@ -24,8 +24,8 @@ export const useSayuAddDialogService = ({ isOpen, onClose }: Args) => {
     return axError?.error?.text as string || axError?.message;
   }, [error]);
 
-  function saveReason(text: string | undefined): void {
-    mutate({ text: text ?? "" });
+  function saveReason(args: SaveReasonArgs): void {
+    mutate(args);
   }
 
   return {

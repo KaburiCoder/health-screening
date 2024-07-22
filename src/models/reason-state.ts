@@ -1,5 +1,6 @@
 export class ReasonState implements ReasonSub {
   id!: string;
+  useNHISHealthCheckUp?: boolean;
   text!: string;
   seq!: number;
   subs?: ReasonSub[] | undefined;

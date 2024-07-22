@@ -1,8 +1,10 @@
 import { SaveDialog } from "@/components/save-dialog";
 import { InputX } from "@/components/ui/input-x";
 import { ModalProps } from "@/lib/props/modal-props";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSayuAddDialogService } from "./_hooks/use-sayu-add-dialog-service";
+import { Checkbox } from "@nextui-org/react";
+import ErrorBox from "@/components/error-box";
 
 interface Props extends ModalProps {}
 
@@ -11,11 +13,13 @@ export const SayuAddDialog = ({ isOpen, onOpenChange, onClose }: Props) => {
     isOpen,
     onClose,
   });
+  const [useNHISHealthCheckUp, setUseNHISHealthCheckUp] =
+    useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    saveReason(inputRef.current?.value);
+    saveReason({ text: inputRef.current?.value!, useNHISHealthCheckUp });
   }
 
   useEffect(() => {
@@ -29,7 +33,14 @@ export const SayuAddDialog = ({ isOpen, onOpenChange, onClose }: Props) => {
       onOpenChange={onOpenChange}
       onSubmit={handleSubmit}
     >
-      <InputX ref={inputRef} autoFocus errorMessage={errorMessage} />
+      <InputX ref={inputRef} autoFocus/>
+      <Checkbox
+        checked={useNHISHealthCheckUp}
+        onValueChange={setUseNHISHealthCheckUp}
+      >
+        공단검진
+      </Checkbox>
+      <ErrorBox errorMessage={errorMessage} />
     </SaveDialog>
   );
 };

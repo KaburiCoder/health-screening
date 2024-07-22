@@ -33,7 +33,7 @@ export const RegistDoctorRow = ({
   return (
     <div className={cn("grid bg-white", styles.grid)}>
       <DraggableGridItem>{index + 1}</DraggableGridItem>
-      <DraggableGridItem>{`${state.code} ${state.jinchalName}`}</DraggableGridItem>
+      <DraggableGridItem className="text-start" >{`${state.code} ${state.jinchalName}`}</DraggableGridItem>
       <DraggableGridItem>{state.name}</DraggableGridItem>
       <DraggableGridItem>{state.kwamokName}</DraggableGridItem>
       <GridItem className="overflow-x-auto">
@@ -64,11 +64,11 @@ export const RegistDoctorRow = ({
 
 const gridStyles = "border-b border-l border-slate-200 px-2 py-4 text-center";
 interface GridItemProps extends ChildrenClassNameProps {
-  noClassName?: boolean;
+  noGridStyle?: boolean;
   onClick?: () => void;
 }
 const GridItem = ({
-  noClassName,
+  noGridStyle: noClassName,
   className,
   children,
   onClick,
@@ -83,12 +83,14 @@ const GridItem = ({
   );
 };
 
-const DraggableGridItem = ({ children }: ChildrenProps) => {
+const DraggableGridItem = ({ children, className }: ChildrenClassNameProps) => {
   return (
     <SortableList.DragHandleWrapper
       className={cn("overflow-x-auto", gridStyles)}
     >
-      <GridItem noClassName>{children}</GridItem>
+      <GridItem className={className} noGridStyle>
+        {children}
+      </GridItem>
     </SortableList.DragHandleWrapper>
   );
 };
@@ -103,8 +105,8 @@ const DoctorWorksItems = ({ works }: { works: DoctorWorks | undefined }) => {
       key={yoil}
       className={cn(
         "flex-center h-6 w-6 rounded-full border border-gray-300 px-2",
-        yoil === "토" ? "text-blue-500 border-blue-300" : "",
-        yoil === "일" ? "text-red-500 border-red-300" : "",
+        yoil === "토" ? "border-blue-300 text-blue-500" : "",
+        yoil === "일" ? "border-red-300 text-red-500" : "",
       )}
     >
       {yoil}

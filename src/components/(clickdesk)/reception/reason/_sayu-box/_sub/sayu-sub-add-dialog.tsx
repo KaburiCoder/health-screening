@@ -42,20 +42,29 @@ export const SayuSubAddDialog = ({
       onSubmit={handleSubmit}
     >
       <ItemText text={item.text} />
-      <SubDivider />
-      <SayuSubDnd subs={reasonStates} setSubs={setReasonStates} />
-      <Button
-        className="min-h-12"
-        variant="light"
-        startContent={<PlusCircle />}
-        onClick={() => {
-          setReasonStates((subs) => {
-            return subs.concat(ReasonSub.createState(subs));
-          });
-        }}
-      >
-        추가
-      </Button>
+
+      {item.useNHISHealthCheckUp ? (
+        <div className="text-center text-rose-500">
+          공단검진 항목은 추가항목을 작성할 수 없습니다.
+        </div>
+      ) : (
+        <>
+          <SubDivider />
+          <SayuSubDnd subs={reasonStates} setSubs={setReasonStates} />
+          <Button
+            className="min-h-12"
+            variant="light"
+            startContent={<PlusCircle />}
+            onClick={() => {
+              setReasonStates((subs) => {
+                return subs.concat(ReasonSub.createState(subs));
+              });
+            }}
+          >
+            추가
+          </Button>
+        </>
+      )}
     </SaveDialog>
   );
 };
