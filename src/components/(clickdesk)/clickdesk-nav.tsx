@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { CircleChevronRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -15,12 +15,19 @@ import { usePathname } from "next/navigation";
 
 export const ClickdeskNav = () => {
   const pathname = usePathname();
-  const defaultValue = pathname.split("/")?.[2];
+  const defaultValue = useMemo(() => pathname.split("/")?.[2], [pathname]);
+  const [accPath, setAccPath] = useState(defaultValue);
 
+  useEffect(() => {
+    setAccPath(defaultValue);
+  }, [defaultValue]);
+  
   return (
     <nav>
       <Accordion
         defaultValue={defaultValue}
+        value={accPath}
+        onValueChange={setAccPath}
         type="single"
         collapsible
         className="w-full"

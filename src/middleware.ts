@@ -26,6 +26,7 @@ function notAuthPaths(pathname: string) {
 
 function allowPaths(pathname: string) {
   return pathname.startsWith("/images") ||
+    pathname.startsWith("/clickdesk") ||
     pathname.endsWith("/changepw") ||
     pathname.startsWith("/test");
 }

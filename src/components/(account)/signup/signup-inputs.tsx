@@ -10,7 +10,6 @@ interface Props {
   onChangeOrgName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeEmail: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeConfirmPassword: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onChangeRoomKey: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeManagerCode: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -19,7 +18,6 @@ export default function SignupInputs({
   onChangeUserId,
   onChangePassword,
   onChangeConfirmPassword,
-  onChangeRoomKey,
   onChangeManagerCode,
   onChangeEmail,
   onChangeOrgName,
@@ -53,13 +51,6 @@ export default function SignupInputs({
         type="email"
         errorMessage={validateError?.error?.email}
         onChange={onChangeEmail}
-      />
-      <InputX
-        label="연결 코드"
-        description="클릭소프트 담당자만 알 수 있어요."
-        variant="faded"
-        errorMessage={validateError?.error?.roomKey}
-        onChange={onChangeRoomKey}
       />
       <InputX
         label="관리자 코드"

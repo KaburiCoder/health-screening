@@ -17,8 +17,10 @@ export const paths = {
   success: (kind: string) => `/success?kind=${kind}`,
   adminSettings: (path: "common" | "users") => `/admin/settings/${path}`,
   clickdesk: {
-    user: () => `/clickdesk/user/${""}`,
-    reception: (path: "doctor" | "reason" | "hospinfo") => `/clickdesk/reception/${path}`,
+    root: "/clickdesk",
+    reception: function (path: "doctor" | "reason" | "hospinfo") {
+      return `${this.root}/reception/${path}`
+    },
   },
 };
 

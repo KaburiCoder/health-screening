@@ -13,14 +13,12 @@ export default function SignupForm({ confirmManagerCode }: Props) {
     userId,
     password,
     confirmPassword,
-    roomKey,
     managerCode,
     email,
     orgName,
     handleChangeUserId,
     handleChangePassword,
     handleChangeConfirmPassword,
-    handleChangeRoomKey,
     handleChangeManagerCode,
     handleChangeEmail,
     handleChangeOrgName,
@@ -33,7 +31,6 @@ export default function SignupForm({ confirmManagerCode }: Props) {
         userId,
         password,
         confirmPassword,
-        roomKey,
         managerCode,
         email,
         orgName,
@@ -45,7 +42,6 @@ export default function SignupForm({ confirmManagerCode }: Props) {
         onChangeUserId={handleChangeUserId}
         onChangePassword={handleChangePassword}
         onChangeConfirmPassword={handleChangeConfirmPassword}
-        onChangeRoomKey={handleChangeRoomKey}
         onChangeManagerCode={handleChangeManagerCode}
         onChangeEmail={handleChangeEmail}
         onChangeOrgName={handleChangeOrgName}
