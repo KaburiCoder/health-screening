@@ -87,3 +87,5 @@ export const SayuBox = React.forwardRef<HTMLDivElement, SayuBoxProps>(
     );
   },
 );
+
+SayuBox.displayName = "SayuBox";
