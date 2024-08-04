@@ -1,7 +1,11 @@
 import { User } from "@/models/user";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
+import { ChildrenProps } from "kbr-nextjs-shared/props";
 import React from "react";
+import { ServiceBadge } from "./service-badge";
+import { ServiceCell } from "./service-cell";
+import { serviceFilterFn } from "../utils/service-filter-fn";
 
 export default function useColumns() {
   const columns = React.useMemo<ColumnDef<User>[]>(
@@ -30,6 +34,16 @@ export default function useColumns() {
         header: () => "연결코드",
         accessorFn: (row) => row.roomKey,
         id: "roomKey",
+        footer: (props) => props.column.id,
+      },
+      {
+        header: () => <div>부가 서비스</div>,
+        accessorFn: (row) => row.settings,
+        id: "settings",
+        filterFn: (props, _, value: string) => {
+          return serviceFilterFn({ settings: props.original.settings, value });
+        },
+        cell: ServiceCell,
         footer: (props) => props.column.id,
       },
       {

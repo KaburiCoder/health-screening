@@ -5,21 +5,16 @@ import SignupInputs from "./signup-inputs";
 import ButtonL from "@/components/ui/button-l";
 import AccountBaseForm from "../account-base-form";
 
-interface Props {
-  confirmManagerCode: string | undefined;
-}
-export default function SignupForm({ confirmManagerCode }: Props) {
+export default function SignupForm() {
   const {
     userId,
     password,
     confirmPassword,
-    managerCode,
     email,
     orgName,
     handleChangeUserId,
     handleChangePassword,
     handleChangeConfirmPassword,
-    handleChangeManagerCode,
     handleChangeEmail,
     handleChangeOrgName,
   } = useSignupState();
@@ -31,10 +26,8 @@ export default function SignupForm({ confirmManagerCode }: Props) {
         userId,
         password,
         confirmPassword,
-        managerCode,
         email,
         orgName,
-        confirmManagerCode: confirmManagerCode || "",
       })}
     >
       <SignupInputs
@@ -42,7 +35,6 @@ export default function SignupForm({ confirmManagerCode }: Props) {
         onChangeUserId={handleChangeUserId}
         onChangePassword={handleChangePassword}
         onChangeConfirmPassword={handleChangeConfirmPassword}
-        onChangeManagerCode={handleChangeManagerCode}
         onChangeEmail={handleChangeEmail}
         onChangeOrgName={handleChangeOrgName}
       />

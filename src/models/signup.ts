@@ -6,8 +6,6 @@ export interface Signup {
   email: string;
   orgName: string;
   confirmPassword?: string;
-  managerCode: string;
-  confirmManagerCode: string;
 }
 
 export const signupSchema = Joi.object<Signup>({
@@ -23,12 +21,6 @@ export const signupSchema = Joi.object<Signup>({
   }),
   orgName: Joi.string().required().messages({
     "string.empty": `기관이름을 입력하세요.`,
-  }),
-  managerCode: Joi.string().required().messages({
-    "string.empty": `관리자 코드를 입력하세요.`,
-  }),
-  confirmManagerCode: Joi.string().required().valid(Joi.ref("managerCode")).messages({
-    "any.only": `관리자코드가 일치하지 않습니다.`,
   }),
   confirmPassword: Joi.string().required().valid(Joi.ref("password")).messages({
     "string.empty": `비밀번호 확인란을 입력하세요.`,

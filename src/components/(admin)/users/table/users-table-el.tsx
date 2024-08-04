@@ -2,6 +2,7 @@ import React from "react";
 import Filter from "./filter";
 import { Table, flexRender } from "@tanstack/react-table";
 import { User } from "@/models/user";
+import { UsersTableRow } from "./users-table-row";
 
 interface Props {
   table: Table<User>;
@@ -46,20 +47,7 @@ export default function UsersTableEl({ table }: Props) {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => {
-            return (
-              <tr className="hover:bg-blue-50" key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <td key={cell.id} className="p-1 px-4">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
+            return <UsersTableRow key={row.id} row={row} />;
           })}
         </tbody>
       </table>

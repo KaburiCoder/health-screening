@@ -1,5 +1,8 @@
 "use client";
-import { User } from "@/models/user";
+import { useTablePagination } from "@/lib/hooks/use-table-pagination";
+import { apiPaths } from "@/paths";
+import { getAllUsers } from "@/services/users/get-all-users";
+import { useQuery } from "@tanstack/react-query";
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -7,12 +10,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useTablePagination } from "@/lib/hooks/use-table-pagination";
-import UsersTableEl from "./users-table-el";
 import useColumns from "./use-columns";
-import { useQuery } from "@tanstack/react-query";
-import { apiPaths } from "@/paths";
-import { getAllUsers } from "@/services/users/get-all-users";
+import UsersTableEl from "./users-table-el";
 
 export default function UsersTable() {
   const { data } = useQuery({

@@ -5,5 +5,5 @@ import { apiPaths } from "@/paths";
 export async function getAllUsers(): Promise<User[]> {
   const response = await axClient.get(apiPaths.users.root);
 
-  return response.data?.users as User[]
+  return response.data?.users as User[];
 }

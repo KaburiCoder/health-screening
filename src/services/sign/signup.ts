@@ -4,7 +4,6 @@ import { paths } from "@/paths";
 export async function signup(dto: {
   userId: string;
   password: string;
-  managerCode: string;
   orgName: string;
   email: string;
 }) {

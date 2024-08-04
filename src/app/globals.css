@@ -86,6 +86,7 @@
 
 input {
   outline: none;
+  font-size: 1rem;
 }
 
 .no-radio {

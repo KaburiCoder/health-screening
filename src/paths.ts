@@ -32,6 +32,8 @@ export const apiPaths = {
   },
   users: {
     root: "/users",
+    update: (id: string) => `/users/${id}`,
+    delete: (id: string) => `/users/${id}`,
     checkpw: (userId: string) => `/users/${userId}/checkpw`,
     changepw: (userId: string) => `/users/${userId}/changepw`,
     findpw: (userId: string) => `/users/${userId}/findpw`,

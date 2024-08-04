@@ -19,14 +19,13 @@ export const useFetchSignup = () => {
     error,
   });
 
-  async function handleSignup({ confirmPassword, confirmManagerCode, ...data }: Signup, e: React.FormEvent<HTMLFormElement>) {
+  async function handleSignup({ confirmPassword, ...data }: Signup, e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (
       validateAndGetResult(signupSchema, {
         ...data,
         confirmPassword,
-        confirmManagerCode,
       })
     ) {
       mutate(data);

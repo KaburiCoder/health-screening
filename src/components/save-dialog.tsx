@@ -7,10 +7,10 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import { ChildrenProps } from "kbr-nextjs-shared/props";
+import { ChildrenClassNameProps, ChildrenProps } from "kbr-nextjs-shared/props";
 import React from "react";
 
-interface SaveDialogProps extends ModalProps, ChildrenProps {
+interface SaveDialogProps extends ModalProps, ChildrenClassNameProps {
   title: string;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isDisabled?: boolean;
@@ -19,12 +19,14 @@ export const SaveDialog = ({
   title,
   isOpen,
   isDisabled,
+  className,
   children,
   onOpenChange,
   onSubmit,
 }: SaveDialogProps) => {
   return (
     <Modal
+      className={className}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       isDismissable={false}

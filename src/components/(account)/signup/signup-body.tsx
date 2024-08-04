@@ -4,17 +4,13 @@ import React from "react";
 import { AccountBottom } from "../account-bottom";
 import SignupForm from "./signup-form";
 
-interface Props {
-  managerCode: string | undefined;
-}
-
-export default function SignupBody({ managerCode }: Props) {
+export default function SignupBody() {
   return (
     <AccountHero
       title="Sign in to ClickSoft"
       bottomIn={<AccountBottom type="signup" />}
     >
-      <SignupForm confirmManagerCode={managerCode} />
+      <SignupForm />
     </AccountHero>
   );
 }
