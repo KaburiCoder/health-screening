@@ -33,7 +33,7 @@ export const ClickdeskNav = () => {
         className="w-full"
       >
         <AccItem value="1" trigger="사용자 관리"></AccItem>
-        <AccItem value="reception" trigger="접수 앱 관리">
+        <AccItem value="reception" trigger="클릭데스크 관리">
           <ul>
             <AccLi href={paths.clickdesk.reception("hospinfo")}>
               병원정보 설정
