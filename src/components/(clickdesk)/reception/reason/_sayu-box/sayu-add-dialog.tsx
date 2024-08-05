@@ -13,6 +13,7 @@ export const SayuAddDialog = ({ isOpen, onOpenChange, onClose }: Props) => {
     isOpen,
     onClose,
   });
+  const [sayu, setSayu] = useState("");
   const [useNHISHealthCheckUp, setUseNHISHealthCheckUp] =
     useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -23,7 +24,11 @@ export const SayuAddDialog = ({ isOpen, onOpenChange, onClose }: Props) => {
   }
 
   useEffect(() => {
-    if (isOpen) inputRef.current?.focus();
+    if (isOpen) {
+      inputRef.current?.focus();
+    } else {
+      setUseNHISHealthCheckUp(false);
+    }
   }, [isOpen]);
 
   return (
@@ -33,7 +38,7 @@ export const SayuAddDialog = ({ isOpen, onOpenChange, onClose }: Props) => {
       onOpenChange={onOpenChange}
       onSubmit={handleSubmit}
     >
-      <InputX ref={inputRef} autoFocus/>
+      <InputX ref={inputRef} autoFocus />
       <Checkbox
         checked={useNHISHealthCheckUp}
         onValueChange={setUseNHISHealthCheckUp}
