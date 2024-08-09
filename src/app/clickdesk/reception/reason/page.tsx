@@ -1,12 +1,8 @@
-import { ReasonBody } from '@/components/(clickdesk)/reception/reason/reason-body'
-import React from 'react'
+import { ReasonBody } from "@/components/(clickdesk)/reception/reason/reason-body";
+import React from "react";
 
 const ClickdesckReasonPage = () => {
-  return (
-    <ReasonBody>
-      
-    </ReasonBody>
-  )
-}
+  return <ReasonBody />;
+};
 
-export default ClickdesckReasonPage
+export default ClickdesckReasonPage;

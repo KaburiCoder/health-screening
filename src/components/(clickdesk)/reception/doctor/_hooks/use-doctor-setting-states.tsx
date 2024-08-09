@@ -1,8 +1,10 @@
-import { DoctorWorks } from "@/models/doctor-state";
-import { TimeValue } from "@/models/time-value";
-import { useState } from "react";
+import { DoctorWorks, TimeRange } from "@/models/doctor-state";
+import { useEffect, useState } from "react";
 
-export const useDoctorSettingStates = () => {
+interface Args {
+  works: DoctorWorks | undefined;
+}
+export const useDoctorSettingStates = ({ works: baseWorks }: Args) => {
   const [works, setWorks] = useState<DoctorWorks>();
   const [name, setName] = useState<string>();
   const [kwamokName, setKwamokName] = useState<string>();
@@ -18,27 +20,21 @@ export const useDoctorSettingStates = () => {
   function handleSetWorks(
     key: keyof DoctorWorks,
     checked: boolean,
-    start?: TimeValue | undefined,
-    end?: TimeValue | undefined,
+    timeRanges: TimeRange[] | undefined,
   ) {
     setWorks((prev) => {
-      const data: DoctorWorks | undefined = checked
-        ? {
-            [key]: [
-              {
-                start,
-                end,
-              },
-            ],
-          }
-        : {
-            [key]: undefined,
-          };
+      const data: DoctorWorks | undefined = {
+        [key]: checked ? timeRanges : undefined,
+      };
 
       return { ...prev, ...data };
     });
   }
 
+  useEffect(() => {
+    setWorks(baseWorks);
+  }, [baseWorks]);
+  
   return {
     works,
     name,

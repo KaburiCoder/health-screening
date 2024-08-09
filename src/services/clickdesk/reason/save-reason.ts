@@ -5,6 +5,7 @@ import { apiPaths } from "@/paths"
 export interface SaveReasonArgs {
   text: string;
   useNHISHealthCheckUp: boolean;
+  doctorId: string;
 }
 
 export async function saveReason(args: SaveReasonArgs): Promise<ReasonState> {

@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSayuAddDialogService } from "./_hooks/use-sayu-add-dialog-service";
 import { Checkbox } from "@nextui-org/react";
 import ErrorBox from "@/components/error-box";
+import { useReasonSelDoctor } from "../_providers/reason-sel-doctor.provider";
 
 interface Props extends ModalProps {}
 
@@ -13,14 +14,18 @@ export const SayuAddDialog = ({ isOpen, onOpenChange, onClose }: Props) => {
     isOpen,
     onClose,
   });
-  const [sayu, setSayu] = useState("");
+  const { doctorId } = useReasonSelDoctor();
   const [useNHISHealthCheckUp, setUseNHISHealthCheckUp] =
     useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    saveReason({ text: inputRef.current?.value!, useNHISHealthCheckUp });
+    saveReason({
+      text: inputRef.current?.value!,
+      useNHISHealthCheckUp,
+      doctorId,
+    });
   }
 
   useEffect(() => {

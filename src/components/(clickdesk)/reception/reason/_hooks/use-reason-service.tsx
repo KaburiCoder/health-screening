@@ -1,13 +1,17 @@
 import { apiPaths } from "@/paths";
-import { getAllReasons } from "@/services/clickdesk/reason/get-all-reasons";
+import { getReasonsByDoctorId } from "@/services/clickdesk/reason/get-reasons-by-doctor-id";
 import { updateAllReasons } from "@/services/clickdesk/reason/update-all-reasons";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-export const useReasonService = () => {
+interface Args {
+  doctorId: string;
+}
+
+export const useReasonService = ({ doctorId }: Args) => {
   const { data: queryData, isPending: isQueryPending } = useQuery({
-    queryFn: getAllReasons,
-    queryKey: [apiPaths.clickdesk.reason],
+    queryFn: () => getReasonsByDoctorId(doctorId),
+    queryKey: [apiPaths.clickdesk.reason, doctorId],
   });
 
   const { mutate: updateAllMutate, isPending: isUpdatePending } = useMutation({

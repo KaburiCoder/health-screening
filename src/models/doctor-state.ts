@@ -19,8 +19,8 @@ export interface DoctorWorks {
   sat?: TimeRange[];
   sun?: TimeRange[];
 }
-interface TimeRange {
-  start: TimeValue,
-  end: TimeValue;
+export interface TimeRange {
+  start?: TimeValue,
+  end?: TimeValue;
 }
 

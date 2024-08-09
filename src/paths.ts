@@ -45,6 +45,7 @@ export const apiPaths = {
     doctorUpdate: (id: string) => `/clickdesk/doctor/${id}/update`,
     doctorSeq: "/clickdesk/doctor/seq",
     reason: "/clickdesk/reason",
+    reasonWithDoctorId: function (doctorId: string) { return `${this.reason}/${doctorId}` },
     reasonAll: "/clickdesk/reason/all",
     reasonUpdate: (id: string) => `/clickdesk/reason/${id}/update`,
     reasonId: (id: string) => `/clickdesk/reason/${id}`,

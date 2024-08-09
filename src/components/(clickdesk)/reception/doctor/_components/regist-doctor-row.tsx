@@ -2,7 +2,7 @@ import { ChildrenClassNameProps, ChildrenProps } from "kbr-nextjs-shared/props";
 import styles from "./doctor-grid.module.css";
 import { cn } from "@/lib/utils";
 import { Grid, Settings, Trash2 } from "lucide-react";
-import { DoctorState, DoctorWorks } from "@/models/doctor-state";
+import { DoctorState, DoctorWorks, TimeRange } from "@/models/doctor-state";
 import { SortableList } from "@/components/dnd-kit/sortable-list";
 import { dayMappings } from "@/contants/doctor-constants";
 
@@ -33,7 +33,7 @@ export const RegistDoctorRow = ({
   return (
     <div className={cn("grid bg-white", styles.grid)}>
       <DraggableGridItem>{index + 1}</DraggableGridItem>
-      <DraggableGridItem className="text-start" >{`${state.code} ${state.jinchalName}`}</DraggableGridItem>
+      <DraggableGridItem className="justify-start">{`${state.code} ${state.jinchalName}`}</DraggableGridItem>
       <DraggableGridItem>{state.name}</DraggableGridItem>
       <DraggableGridItem>{state.kwamokName}</DraggableGridItem>
       <GridItem className="overflow-x-auto">
@@ -86,9 +86,9 @@ const GridItem = ({
 const DraggableGridItem = ({ children, className }: ChildrenClassNameProps) => {
   return (
     <SortableList.DragHandleWrapper
-      className={cn("overflow-x-auto", gridStyles)}
+      className={cn("overflow-x-auto flex items-center justify-center", gridStyles, className)}
     >
-      <GridItem className={className} noGridStyle>
+      <GridItem noGridStyle>
         {children}
       </GridItem>
     </SortableList.DragHandleWrapper>
@@ -96,11 +96,42 @@ const DraggableGridItem = ({ children, className }: ChildrenClassNameProps) => {
 };
 
 const DoctorWorksItems = ({ works }: { works: DoctorWorks | undefined }) => {
-  const yoils = dayMappings
-    .map(([kor, key]) => (!!works?.[key]?.length ? kor : ""))
-    .filter((value) => !!value);
+  const yoilMapData = dayMappings.reduce(
+    (acc: { kor: string; timeRanges: TimeRange[] }[], [kor, key]) => {
+      const timeRanges = works?.[key];
+      if (!timeRanges || timeRanges.length === 0) return acc;
 
-  const yoilComponents = yoils.map((yoil) => (
+      return acc.concat({ kor, timeRanges });
+    },
+    [],
+  );
+
+  const components = yoilMapData.map((data) => (
+    <div key={data.kor} className="flex flex-col items-center">
+      <Yoil yoil={data.kor} />
+      {data.timeRanges.map((range) => {
+        const value = `${formatNumber(range.start!.hour)}:${formatNumber(range.start!.minute)}~${formatNumber(range.end!.hour)}:${formatNumber(range.end!.minute)}`;
+        return (
+          <div key={value} className="text-xs text-slate-500">
+            {value}
+          </div>
+        );
+      })}
+    </div>
+  ));
+
+  return <div className="flex items-start gap-3">{components}</div>;
+};
+
+function formatNumber(num: number): string {
+  return num.toString().padStart(2, "0");
+}
+
+interface YoilProps {
+  yoil: string;
+}
+const Yoil = ({ yoil }: YoilProps) => {
+  return (
     <span
       key={yoil}
       className={cn(
@@ -111,7 +142,5 @@ const DoctorWorksItems = ({ works }: { works: DoctorWorks | undefined }) => {
     >
       {yoil}
     </span>
-  ));
-
-  return <div className="flex items-center gap-1">{yoilComponents}</div>;
+  );
 };
