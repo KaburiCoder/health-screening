@@ -347,7 +347,11 @@ const femaleCondition = ({ then, sibling }: { then: Joi.SchemaLike, sibling?: bo
 }
 
 const schema = Joi.object<CancerState>({
-  sex: Joi.string().valid("M", "F").required(),
+  sex: Joi.string().valid("M", "F").required().messages({
+    "any.only": "성별 정보가 올바르지 않습니다. 환자를 다시 선택하거나 관리자에게 문의해주세요.",
+    "any.required": "성별 정보가 없습니다. 환자를 다시 선택하거나 관리자에게 문의해주세요.",
+    "string.empty": "성별 정보가 없습니다. 환자를 다시 선택하거나 관리자에게 문의해주세요.",
+  }),
   n1: Joi.object<ICancerN1>({
     has: Joi.string().valid(...Object.values(CancerHas)).required().messages(selectMessage("1")),
     symptom: Joi.string().when("has", {

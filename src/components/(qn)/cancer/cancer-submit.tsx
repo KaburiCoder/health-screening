@@ -33,7 +33,15 @@ export const CancerSubmit = () => {
     if (error) {
       const flattenError = flattenJoiError(error);
       setError("cancer", flattenError);
-      return scrollToError(Object.keys(flattenError)[0]);
+
+      const firstKey = Object.keys(flattenError)[0];
+      // 화면에 에러 박스로 표시할 수 있는 항목이면 해당 위치로 스크롤하고,
+      // 그렇지 못한 항목(예: sex처럼 입력 UI가 없는 필드)은 toast로 노출해
+      // 클릭 시 아무 반응이 없는(무반응) 상황을 방지한다.
+      if (document.getElementById(firstKey)) {
+        return scrollToError(firstKey);
+      }
+      return void toast.error(flattenError[firstKey]);
     }
 
     setError("cancer", undefined);
